@@ -1,0 +1,29 @@
+# Generated output directories — contain potentially sensitive analysis results.
+# Users: review and commit what you want to preserve; exclude what's confidential.
+analyses/
+scorecards/
+deliverables/
+models/
+pipelines/
+dashboards/
+
+# Common secrets / environment files
+.env
+.env.*
+*.env
+secrets.*
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db

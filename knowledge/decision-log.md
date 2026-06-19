@@ -25,6 +25,6 @@
 |---|---|---|---|
 | {{DATE}} | {{e.g. "duplicate events inflating Tuesday counts ~3%"}} | {{agent}} | {{open / investigating / resolved / accepted}} |
 
-## Change Ledger (mirror)
+## Change Ledger — where it lives
 
-> Business changes relevant to metric movements also live in `knowledge/business-context.md` → Change Ledger. Root-cause investigations (step 4 of `/investigate-metric`) read that table; investigation *verdicts* get logged here as Decisions.
+> The change ledger itself (releases, pricing, campaigns, outages, market events) lives in `knowledge/business-context.md` → Change Ledger, not here. Root-cause investigations (step 4 of `/investigate-metric`) read *that* table; investigation **verdicts** get logged here, above, as Decisions. Keep the two in sync: a business change → business-context ledger; a ruling about what it caused → here.

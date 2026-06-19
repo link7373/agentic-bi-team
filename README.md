@@ -1,247 +1,320 @@
-# Agentic BI Team for Claude Code
+# 📊 Agentic BI Team for Claude Code
 
-A complete, self-sustained **Business Intelligence & Data Analytics team** that you run with [Claude Code](https://code.claude.com). Fill out one plain-English charter document, run one command, and you have a configured virtual team that covers everything a real BI team does:
+**A complete Business Intelligence & Data Analytics team, built from Claude sub-agents and skills.**
+Fill in one plain-English charter, run one command, and get a virtual BI function that builds pipelines,
+models huge datasets, answers business questions, ships dashboards, defines KPIs, monitors metrics,
+forecasts and runs experiments, and produces decision-ready deliverables — grounded in a rigorous
+statistical framework and persisted across sessions.
 
-- **ETL & data pipelines** — ingest from source systems, layered raw→staging→marts models, quality gates
-- **Summary tables from huge datasets** — fast, pre-aggregated tables at the right grain
-- **Ad-hoc analysis & short reports** — business questions answered with reproducible queries
-- **Cross-database joins** — complex analysis spanning CRM + billing + product data, with match-rate honesty
-- **Weekly & monthly performance scorecards** — fixed KPI set, status colours, narrative explanations
-- **Dashboards** — Tableau, Power BI, Looker, or self-contained HTML, with consistent design standards
-- **Proactive monitoring** — anomaly detection and structured root-cause analysis when metrics underperform
-- **KPI & metric definition** — industry-best-practice metric trees with anti-gaming guardrails
-- **Machine learning** — churn/propensity models, forecasting, segmentation, A/B test design, model cards
-- **Executive deliverables** — PowerPoint, Word, Excel (and Google Workspace equivalents) built from analysis
-- **Domain learning** — researches your industry, benchmarks, and competitors, and remembers what it learns
+![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
+![Built for](https://img.shields.io/badge/Built%20for-Claude%20Code-8A2BE2.svg)
+![Agents](https://img.shields.io/badge/Agents-8-2563EB.svg)
+![Skills](https://img.shields.io/badge/Skills-11-2563EB.svg)
 
-Everything is plain Markdown. No app, no SaaS, no lock-in — the "team" is a set of instruction files that Claude Code reads.
+Everything is plain Markdown. No app, no SaaS, no lock-in — the "team" is a set of instruction files that
+Claude Code reads.
 
 ---
+
+## Why this exists
+
+A real BI team is a group of specialists working a shared operating rhythm: data engineers, analytics
+engineers, analysts, dashboard developers, data scientists, a metrics steward, a performance monitor, and
+someone who turns analysis into something an executive will act on. This kit recreates that team as
+**8 role-based agents** coordinated by a **Head of BI** orchestrator, driven by **11 plain-English
+workflows**, and anchored by a **persistent knowledge base** plus a standing **statistical-reasoning
+framework** so the numbers are trustworthy and the context survives across sessions.
+
+You talk to it in business English — *"why did signups drop last week?", "build me a board deck on Q2",
+"which customers are likely to cancel?", "our events query takes forever"* — and it routes the work to the
+right specialist, applies the right method, pressure-tests the result, and returns a decision-ready answer.
+
+What makes this more than a prompt pack: every agent reads `analytics.md` before reporting — a built-in
+framework covering distributions (median vs mean), Simpson's paradox, base rates, sampling bias, regression
+to the mean, and visualization best practice — so findings survive scrutiny instead of just sounding
+confident.
 
 ## How it works
 
-```
-                    ┌─────────────────────────────┐
-   You (plain      │  CLAUDE.md  (Head of BI)     │   routes work, QAs output,
-   English) ─────► │  reads knowledge/, applies   │   delivers finished results
-                    │  standards/, delegates to:   │
-                    └──────────────┬──────────────┘
-        ┌──────────┬──────────┬────┴─────┬──────────┬──────────┐
-        ▼          ▼          ▼          ▼          ▼          ▼
-   data-      analytics-   bi-      dashboard-  data-     insights-
-   engineer   engineer     analyst  developer   scientist communicator
-        (+ metrics-steward and performance-monitor)
-```
-
-Three layers make it self-sustaining:
-
-| Layer | Files | Role |
-|---|---|---|
-| **Orchestration** | `CLAUDE.md` | The Head of BI: business context, routing rules, operating principles, escalation rules. Claude Code loads this automatically every session. |
-| **Specialists & workflows** | `.claude/agents/*.md`, `.claude/skills/*/SKILL.md` | 8 subagents with deep role-specific instructions; 10 slash-command workflows with step-by-step procedures. |
-| **Memory & standards** | `knowledge/*.md`, `standards/*.md` | The team's long-term memory (data quirks, metric definitions, stakeholder preferences, decisions) and house style. Agents read these before working and write back what they learn. |
-
-## Repository layout
-
-```
-├── CLAUDE.md                  Master orchestrator (auto-loaded by Claude Code)
-├── START-HERE.md         ← YOU fill this out, once, in plain English
-├── README.md                  This file
-├── .claude/
-│   ├── agents/                8 team members (Claude Code subagents)
-│   │   ├── data-engineer.md          ETL, ingestion, data quality
-│   │   ├── analytics-engineer.md     summary tables, marts, metric layer
-│   │   ├── bi-analyst.md             analysis, cross-DB joins, deep dives
-│   │   ├── dashboard-developer.md    Tableau / Power BI / Looker
-│   │   ├── data-scientist.md         ML, forecasting, experiments
-│   │   ├── metrics-steward.md        KPI definitions & governance
-│   │   ├── performance-monitor.md    scorecards, anomalies, root cause
-│   │   └── insights-communicator.md  decks, docs, spreadsheets
-│   └── skills/                10 workflows (slash commands)
-│       ├── setup-team/        /setup-team — configures everything from your charter
-│       ├── build-pipeline/    /build-pipeline — ETL & summary tables
-│       ├── analyze/           /analyze — business-problem analysis
-│       ├── scorecard/         /scorecard weekly|monthly
-│       ├── build-dashboard/   /build-dashboard
-│       ├── investigate-metric//investigate-metric — anomaly & root cause
-│       ├── define-kpis/       /define-kpis
-│       ├── build-model/       /build-model — ML development
-│       ├── make-deliverable/  /make-deliverable — slides / docs / Excel
-│       └── research-domain/   /research-domain — industry & product learning
-├── knowledge/                 Long-term memory (populated by /setup-team, grown over time)
-│   ├── business-context.md    company, priorities, glossary, change ledger
-│   ├── data-sources.md        connections, table inventory, join keys, landmines
-│   ├── metrics-catalog.md     THE source of truth for every metric definition
-│   ├── stakeholders.md        audiences, preferences, distribution rules
-│   ├── industry-notes.md      research briefings & benchmarks
-│   └── decision-log.md        methodological decisions & observations
-├── standards/                 House style applied to all output
-│   ├── sql-and-data-standards.md
-│   ├── dashboard-standards.md
-│   └── reporting-standards.md
-└── analytics.md               Standing analytical framework — statistical reasoning & visualization principles
+```mermaid
+flowchart TD
+A(["👤 You · plain English"]) -->|"fill in once"| B["📋 START-HERE.md — the charter"]
+B -->|"/setup-team"| M
+A -->|"requests"| M{{"📊 Head of BI — orchestrator (CLAUDE.md)"}}
+M --> SK[/"11 Skills · workflows"/]
+SK --> AG["👥 8 Specialist Agents — data · analysis · delivery"]
+AG --> KN[("🧠 knowledge/ — source of truth")]
+AG --> ST[("📐 standards/ — house style")]
+AG --> AR[("🧮 analytics.md — stats & viz framework")]
+KN -. "connect & query" .-> DATA["🗄️ Warehouse · BI tool · source systems"]
+M ==>|"decision-ready output"| A
+classDef hub fill:#2563EB,stroke:#1a4ba8,color:#fff;
+classDef store fill:#eef,stroke:#88a,color:#223;
+class M hub;
+class KN,ST,AR store;
 ```
 
-Working artifacts are created as the team operates: `analyses/`, `pipelines/`, `dashboards/`, `models/`, `scorecards/`, `deliverables/`.
+**Five moving parts:**
 
----
+| Part | What it is |
+|------|------------|
+| 📊 **Orchestrator** (`CLAUDE.md`) | The Head of BI — routes requests, sequences multi-step work, runs the cadence, owns final QA. Auto-loaded every session. |
+| 👥 **Agents** (`.claude/agents/`) | 8 specialists, each scoped to a role with deep, role-specific instructions. |
+| ⚙️ **Skills** (`.claude/skills/`) | 11 slash-command workflows with step-by-step procedures. |
+| 🧠 **Knowledge** (`knowledge/`) | Persistent memory — business context, data sources, the metrics catalog, stakeholders, decisions. The **source of truth**. |
+| 📐🧮 **Standards & framework** | House style (`standards/`) and the standing statistical-reasoning + visualization reference (`analytics.md`). |
+
+## The BI job lifecycle
+
+Every workflow chains into the next. A question flows from "what should we measure?" all the way to a
+deliverable, and the answers feed back into the next cycle:
+
+```mermaid
+flowchart LR
+RD["🔎 /research-domain"] --> DK["🎯 /define-kpis"]
+DK --> BP["🔧 /build-pipeline"]
+BP --> AN["📊 /analyze"]
+AN --> IM["🚨 /investigate-metric"]
+AN --> BM["🤖 /build-model"]
+AN --> EX["🧪 /experiment"]
+AN --> BD["📈 /build-dashboard"]
+IM --> SC["🗂️ /scorecard"]
+BD --> SC
+SC --> MD["📰 /make-deliverable"]
+MD -. "next cycle" .-> DK
+```
 
 ## Quick start
 
-### Prerequisites
+> **Prerequisites:** [Claude Code](https://code.claude.com) (CLI, desktop, or web), and some way for it to
+> reach your data — a warehouse MCP server, a CLI client (`psql`, `bq`, `snowsql`, `duckdb`, `sqlite3`), or
+> just CSV/Parquet files in the repo. Don't worry if that isn't set up yet; `/setup-team` helps you sort it
+> out (see [`knowledge/connections.md`](knowledge/connections.md)). Optional: Python 3 for ML and for
+> generating `.pptx`/`.docx`/`.xlsx` deliverables (packages installed on demand).
 
-- [Claude Code](https://code.claude.com) (CLI, desktop, or web)
-- Some way for Claude Code to reach your data — a CLI client (`psql`, `bq`, `snowsql`, `sqlite3`...), an MCP server for your warehouse, or even just CSV files in the repo. Don't worry if this isn't set up; `/setup-team` will help you sort it out.
-- Optional: Python 3 (used for ML and for generating .pptx/.docx/.xlsx deliverables — packages are installed on demand)
+1. **Get the kit** — clone the repo and open it in Claude Code. The `.claude/` folder must be at the root
+   of the workspace Claude Code opens.
 
-### 1. Get the kit
+   ```bash
+   git clone https://github.com/link7373/agentic-bi-team.git my-bi-team
+   cd my-bi-team
+   claude
+   ```
 
-```bash
-git clone https://github.com/link7373/virtual-bi-team.git my-bi-team
-cd my-bi-team
-claude
-```
+   Run `/agents` inside Claude Code to confirm the 8 team members are visible.
 
-The `.claude/` folder must be at the root of the workspace Claude Code opens — that's how the agents and skills load. (Run `/agents` inside Claude Code to confirm the 8 team members are visible.)
+2. **Fill out the charter** — open [`START-HERE.md`](START-HERE.md) and answer in plain English. Bullet
+   points and brain dumps are fine; no technical vocabulary needed. Leave anything you don't know blank.
+   It covers seven areas: the business, your data, metrics & reporting, tools & outputs, advanced
+   analytics, rules & boundaries, and context & quirks.
 
-### 2. Fill out the charter
+3. **Run setup** — in Claude Code:
 
-Open `START-HERE.md` and answer its questions **in plain English** — bullet points and brain dumps are fine, no technical vocabulary needed. It covers seven areas:
+   ```
+   /setup-team
+   ```
 
-1. **The business** — what you do, how you make money, top priorities, the one number that matters
-2. **Your data** — where it lives, roughly how big, how to connect, known problems
-3. **Metrics & reporting** — what you measure today, what you wish you could answer, who reads reports, scorecard cadence
-4. **Tools & outputs** — dashboard tool (Tableau / Power BI / Looker / none), deliverable formats, branding
-5. **Advanced analytics** — predictions you'd value, Python environment
-6. **Rules & boundaries** — privacy/compliance rules, things the team must never do without asking, things it's pre-authorised to do
-7. **Context & quirks** — fiscal year, timezone, company jargon, history a new hire should know
+   This reads your charter, asks one batched round of clarifying questions, **tests every data connection
+   you named** (recording exactly what works and what's blocked), discovers your schemas, replaces every
+   `{{placeholder}}` across all files, seeds a draft KPI list for your business model, runs a smoke-test
+   that the team is live, and reports back with a suggested first task.
 
-**Leave blank anything you don't know.** The setup process asks about gaps and applies sensible defaults for the rest.
+4. **Just ask.** Talk to the Head of BI in business English, or invoke a workflow directly. From here the
+   team is live.
 
-### 3. Run setup
+## The team — 8 agents
 
-In Claude Code:
+**Data foundation**
 
-```
-/setup-team
-```
+| Agent | Owns |
+|-------|------|
+| `data-engineer` | ETL/ELT pipelines, ingestion from source systems, raw→staging, data-quality gates |
+| `analytics-engineer` | Summary/aggregate tables from huge datasets, semantic models, marts, the metric layer |
 
-This reads your charter and:
-- asks you one batched round of clarifying questions for anything ambiguous,
-- **tests every data connection you named** and records exactly what works (and what's blocked, and why),
-- discovers your database schemas and builds a table inventory,
-- replaces every `{{placeholder}}` across all files with your real configuration,
-- seeds a draft KPI list appropriate to your business model, and
-- reports back with a suggested first task.
+**Analysis & science**
 
-From this point the team is live.
+| Agent | Owns |
+|-------|------|
+| `bi-analyst` | Ad-hoc analysis, cross-database joins, cohort/funnel/segmentation, deep dives, short reports |
+| `data-scientist` | Predictive models, forecasting, segmentation, anomaly models, A/B test design & analysis |
 
----
+**Governance & monitoring**
 
-## Configuration reference
+| Agent | Owns |
+|-------|------|
+| `metrics-steward` | KPI/metric definitions, the metrics catalog, the data dictionary, measurement governance |
+| `performance-monitor` | Proactive monitoring, weekly/monthly scorecards, anomaly detection, root-cause analysis |
 
-### The placeholder system
+**Delivery**
 
-Every file ships with `{{PLACEHOLDERS}}` marking where your configuration goes — `{{COMPANY_NAME}}`, `{{BI_TOOL}}`, `{{DATA_PRIVACY_RULES}}`, scorecard thresholds, brand colours, and so on. `/setup-team` fills them from your charter. To find anything still unconfigured:
+| Agent | Owns |
+|-------|------|
+| `dashboard-developer` | Dashboards in Tableau / Power BI / Looker (or self-contained HTML), visual design |
+| `insights-communicator` | Exec summaries, decks, docs, workbooks, data storytelling — the last mile |
+
+## The workflows — 11 skills
+
+| Skill | What it does | Lead agent |
+|-------|--------------|------------|
+| `/setup-team` | Initialize the team from the charter; test connections; seed memory | (orchestrator) |
+| `/research-domain` | Learn the product, market, and industry; write dated briefings & benchmarks | bi-analyst |
+| `/define-kpis` | Metric tree + rigorous catalog definitions, targets, thresholds, counter-metrics | metrics-steward |
+| `/build-pipeline` | Design & build an ETL pipeline or summary table, with quality gates | data-engineer + analytics-engineer |
+| `/analyze` | Full business-problem analysis (incl. cross-DB joins), pressure-tested, with `FINDINGS.md` | bi-analyst |
+| `/investigate-metric` | Anomaly & root-cause analysis: verify → localise → correlate → test → conclude | performance-monitor + bi-analyst |
+| `/build-model` | Scoped ML development (leakage-safe, baseline-first, model card) | data-scientist |
+| `/experiment` | Design or read out an A/B test (power analysis, pre-registered metric, SRM, effect size + CI) | data-scientist |
+| `/scorecard weekly\|monthly` | The periodic performance scorecard — fixed KPI set, status colours, narrative | performance-monitor + insights-communicator |
+| `/build-dashboard` | Spec → data layer → build → number-by-number validation, in the team's BI tool | dashboard-developer + analytics-engineer |
+| `/make-deliverable` | Pyramid-structured deck / doc / workbook with every figure source-mapped | insights-communicator |
+
+## Knowledge & memory
+
+The team remembers. Everything lives in `knowledge/` as the single source of truth, and agents are
+instructed to **read before a task and write back after**:
+
+- **Context:** `business-context.md` (company, priorities, glossary, change ledger), `stakeholders.md`
+  (audiences, preferences, distribution rules)
+- **Data:** `data-sources.md` (connections, table inventory, join keys, the data dictionary, landmines),
+  `connections.md` (the plain-English setup runbook)
+- **Metrics:** `metrics-catalog.md` — **THE** source of truth for every metric definition; no number ships
+  unless it's defined here and computed exactly as defined
+- **Intelligence:** `industry-notes.md` (dated research briefings & benchmarks)
+- **Governance:** `decision-log.md` (methodological rulings & proactively-spotted observations)
+
+Commit the repo regularly — the git history is the team's institutional memory. The `.gitignore` keeps the
+reproducible layer (queries, write-ups, specs, scripts) in version control and excludes bulk data and
+rendered blobs, so every reported number stays traceable without committing sensitive exports.
+
+## The analytics framework
+
+`analytics.md` is the team's standing analytical reference — the thing that makes the output trustworthy:
+
+- **Statistical reasoning (Part 1):** distributions & median-vs-mean, the inspection paradox, Simpson's
+  paradox, base-rate fallacy, collider/Berkson bias, heavy tails & disaster risk, regression to the mean,
+  age-period-cohort effects, and the fairness-impossibility theorem.
+- **Visualization (Part 2):** preattentive attributes, a chart-selection guide, charts to avoid (and why),
+  colour & colour-blindness rules, axis honesty, dashboard design principles.
+- **Applied rules (Part 3):** a pre-publish statistical-hygiene checklist every number passes before it ships.
+
+It is distilled into `standards/reporting-standards.md` and `standards/dashboard-standards.md`, and every
+analytical agent references it by name.
+
+## Standards
+
+House style lives in `standards/`, and the relevant file is read before producing that artifact type:
+
+- **`sql-and-data-standards.md`** — warehouse layering (raw→staging→marts), naming, correctness rules
+  (grain, idempotency, point-in-time joins, guarded division), quality gates, cost discipline.
+- **`reporting-standards.md`** — pyramid structure, takeaway-sentence titles, anchored comparisons,
+  proportionate caveats, the statistical-integrity non-negotiables and hygiene checklist.
+- **`dashboard-standards.md`** — Z-pattern layout, the five-second test, chart-selection & charts-to-avoid
+  tables, semantic colour, honesty rules, the dead-end-dashboard guard.
+
+## Configuration & integrations
+
+**The placeholder system.** Every file ships with `{{PLACEHOLDERS}}` marking where your configuration goes
+(`{{COMPANY_NAME}}`, `{{BI_TOOL}}`, `{{DATA_PRIVACY_RULES}}`, scorecard thresholds, brand colours…).
+`/setup-team` fills them from your charter; you can also hand-edit any file at any time (hand edits are
+equally authoritative). To find anything still unconfigured:
 
 ```bash
 grep -rn "{{" --include="*.md" .
 ```
 
-You can also edit any file by hand at any time — they're just Markdown, and hand edits are equally authoritative.
+**Connecting your data.** The team reads connection details from `knowledge/data-sources.md`. Three
+patterns, in order of preference — an **MCP server** for your warehouse, a **CLI client** with credentials
+in environment variables, or **files** (CSV/Parquet) analysed locally with DuckDB/pandas. `/setup-team`
+verifies whichever you have with live test queries; nothing is recorded as "working" untested. The full,
+non-technical runbook (including the no-secrets-in-git rule) is [`knowledge/connections.md`](knowledge/connections.md).
 
-### Connecting your data
+**Configuring the BI tool.** Set your tool in the charter (or directly in `CLAUDE.md` and
+`dashboard-developer.md`). The dashboard developer carries tool-specific rules for **Tableau**, **Power
+BI**, and **Looker**; with no direct API access it produces import-ready artifacts plus setup steps; with
+no BI tool at all it builds self-contained HTML dashboards.
 
-The team reads connection details from `knowledge/data-sources.md`. Three patterns, in order of preference:
+**Safety rails.** Two placeholders in `CLAUDE.md` §8 govern autonomy: a **never-without-asking** list
+(destructive or outward-facing actions always confirm unless pre-authorised) and a **pre-authorised** list.
+Privacy rules propagate into querying, dashboards, and exports, including minimum aggregation sizes.
 
-1. **MCP server** for your warehouse (BigQuery, Snowflake, Postgres, etc.) configured in Claude Code — gives the team direct, permissioned query access.
-2. **CLI client** available in the shell (`psql`, `bq`, `snowsql`, `duckdb`, `sqlite3`) with credentials in environment variables — the team records the exact working command.
-3. **Files** — CSV/Parquet exports dropped into the repo; the team will analyse them with DuckDB/pandas and tell you what regular exports it needs.
-
-`/setup-team` verifies whichever you have with live test queries; nothing is recorded as "working" untested.
-
-### Configuring the BI tool
-
-Set your tool in the charter (or directly in `CLAUDE.md` and `dashboard-developer.md`). The dashboard developer carries tool-specific build rules for **Tableau** (published data sources, extracts), **Power BI** (star schema, thin DAX), and **Looker** (LookML kept in this repo). If Claude Code has no direct API access to your tool, the team produces complete import-ready artifacts plus exact setup instructions. With **no BI tool at all**, it builds self-contained HTML dashboards regenerated by script.
-
-### Tuning behaviour
+**Tuning behaviour:**
 
 | Want to change | Edit |
 |---|---|
 | Routing, operating principles, escalation rules | `CLAUDE.md` |
-| What a specific role does or how it works | `.claude/agents/<role>.md` |
+| What a specific role does | `.claude/agents/<role>.md` |
 | The steps of a workflow | `.claude/skills/<name>/SKILL.md` |
-| Metric definitions, targets, scorecard thresholds | `knowledge/metrics-catalog.md` (or run `/define-kpis`) |
+| Metric definitions, targets, thresholds | `knowledge/metrics-catalog.md` (or run `/define-kpis`) |
 | SQL conventions, naming, quality gates | `standards/sql-and-data-standards.md` |
-| Chart/colour/layout rules | `standards/dashboard-standards.md` |
+| Chart / colour / layout rules | `standards/dashboard-standards.md` |
 | Report structure, tone, branding | `standards/reporting-standards.md` |
 | Who gets what, in which format | `knowledge/stakeholders.md` |
 
-### Safety rails
-
-Two placeholders in `CLAUDE.md` §8 govern autonomy, set from your charter:
-- **Never without asking:** destructive actions and outward-facing distribution always require confirmation unless you pre-authorise them.
-- **Pre-authorised:** things the team may do freely (e.g. "read any table", "create tables in the dev schema").
-
-Privacy rules (`{{DATA_PRIVACY_RULES}}`) propagate to querying, dashboards, and deliverables, including minimum aggregation sizes.
-
----
-
-## Day-to-day usage
-
-Just talk to it — the orchestrator routes to the right specialists:
-
-> "Why did signups drop last week?" → root-cause investigation
-> "I need a board deck on Q2 performance" → analysis → deck, with an outline shown to you first
-> "Our queries on the events table take forever" → summary-table design and build
-> "Which customers are likely to cancel?" → screening question first (is a model even needed?), then ML workflow
-
-Or invoke workflows directly:
-
-| Command | What happens |
-|---|---|
-| `/analyze why is enterprise churn rising` | Framed, profiled, pressure-tested analysis with a written FINDINGS.md |
-| `/scorecard weekly` | This week's scorecard in `scorecards/`, every red/yellow explained |
-| `/investigate-metric signups down 20%` | Data-problem check → localisation → timeline → tested hypotheses → verdict with confidence |
-| `/build-pipeline daily revenue summary from billing` | Design doc → layered build → quality gates → docs |
-| `/build-dashboard exec revenue overview` | Spec (confirmed with you) → data layer → build → number-by-number validation |
-| `/define-kpis` | Metric tree + rigorous catalog definitions + targets, ratified with you |
-| `/build-model churn prediction` | Leakage-safe dataset → baseline → model → business-terms evaluation → model card |
-| `/make-deliverable churn analysis as exec deck` | Pyramid-structured .pptx with every figure source-mapped |
-| `/research-domain SaaS churn benchmarks` | Sourced, dated briefing in `knowledge/industry-notes.md` |
-
 ### Running on a schedule
 
-The scorecards and monitoring are designed for recurring runs. Options:
-
+The scorecards and monitoring are designed for recurring runs:
 - **Headless CLI:** `claude -p "/scorecard weekly"` from cron or any scheduler.
-- **Claude Code web:** start a session on this repo and ask for the scorecard; or use a GitHub Action that invokes Claude Code on a schedule.
-- **Manual:** just run `/scorecard weekly` each Monday — it takes one command either way.
+- **Claude Code web / GitHub Action:** start a session on this repo on a schedule and ask for the scorecard.
+- **Manual:** just run `/scorecard weekly` each Monday — one command either way.
 
-### How the team stays smart
+## Repository layout
 
-The knowledge files are working memory, not documentation theatre — agents are instructed to read them before tasks and write back after: data quirks land in `data-sources.md`, definition rulings in `metrics-catalog.md` + `decision-log.md`, stakeholder reactions in `stakeholders.md`, business events in the change ledger (which powers root-cause timelines). Commit the repo regularly; the git history is the team's institutional memory.
+```
+agentic-bi-team/
+├─ START-HERE.md            # the charter you fill in (plain English)
+├─ CLAUDE.md                # Head of BI orchestrator (routing, principles, escalation)
+├─ README.md
+├─ analytics.md             # statistical-reasoning & visualization framework
+├─ LICENSE · .gitignore · .gitattributes
+├─ .claude/
+│  ├─ agents/               # 8 specialist sub-agents
+│  └─ skills/               # 11 slash-command workflows
+├─ knowledge/               # persistent memory — source of truth
+│  ├─ business-context.md · data-sources.md · connections.md
+│  ├─ metrics-catalog.md · stakeholders.md
+│  ├─ industry-notes.md · decision-log.md
+├─ standards/               # sql-and-data · reporting · dashboard house style
+├─ analyses/                # generated: one folder per analysis (queries + FINDINGS.md)
+├─ pipelines/ · dashboards/ · experiments/   # generated: each with a README inventory
+├─ models/ · scorecards/ · deliverables/     # generated: model cards, scorecards, decks
+```
 
-Re-run `/setup-team` after major changes (new warehouse, new product line, reorg) — it merges new facts without wiping accumulated knowledge.
-
----
+Working directories (`analyses/`, `pipelines/`, `dashboards/`, `models/`, `experiments/`, `scorecards/`,
+`deliverables/`) fill in as the team operates; `pipelines/`, `dashboards/`, and `experiments/` ship with a
+`README.md` inventory so the "check for existing work" step always has something to read.
 
 ## Extending the team
 
-- **Add a team member:** create `.claude/agents/<name>.md` with frontmatter (`name`, `description`) + role instructions, and add a row to the routing table in `CLAUDE.md` §3. Useful additions: a financial analyst, an experimentation specialist, a data-governance officer.
-- **Add a workflow:** create `.claude/skills/<name>/SKILL.md` (frontmatter + numbered procedure) and list it in `CLAUDE.md` §4.
-- **Industry packs:** the metrics-steward and `/define-kpis` adapt to your business model from the charter; for deep vertical needs, extend `knowledge/metrics-catalog.md` and `industry-notes.md` directly.
+- **Add a team member:** create `.claude/agents/<name>.md` (frontmatter `name`, `description` + role
+  instructions) and add a row to the routing table in `CLAUDE.md` §3. Useful additions: a financial
+  analyst, a data-governance officer.
+- **Add a workflow:** create `.claude/skills/<name>/SKILL.md` (frontmatter + numbered procedure) and list
+  it in `CLAUDE.md` §4.
+- **Industry packs:** the metrics-steward and `/define-kpis` adapt to your business model from the charter;
+  for deep vertical needs, extend `knowledge/metrics-catalog.md` and `industry-notes.md` directly.
+
+## Principles
+
+- **Decision-first** — every piece of work starts from the decision it informs.
+- **Knowledge base is law** — `metrics-catalog.md` is the single source of truth; never invent a competing
+  definition.
+- **Show your work** — every number traces to a query saved in the repo; nothing un-reproducible.
+- **Validate before you trust** — profile row counts, dates, duplicates, nulls; apply the `analytics.md`
+  framework before reporting.
+- **Proactive by default** — flag off-trend metrics, data-quality problems, and opportunities even when
+  nobody asked.
 
 ## Troubleshooting
 
 | Symptom | Fix |
 |---|---|
 | Agents/skills don't appear | `.claude/` must be at the root of the folder Claude Code opened. Check with `/agents`. |
-| Team asks for context it should know | Placeholders left unfilled — run the grep above, or re-run `/setup-team`. |
-| Two reports disagree on a number | That's a metrics-steward job: say "these two numbers disagree" and it will reproduce both, rule, and fix the deviating artifact. |
-| Data connection broke | Update `knowledge/data-sources.md` (or tell the team — it will retest and update the file). |
-| Output style isn't right | Edit the relevant `standards/` file once; every future artifact follows it. Log stakeholder-specific reactions in `knowledge/stakeholders.md`. |
+| Team asks for context it should know | Placeholders left unfilled — run the `{{` grep above, or re-run `/setup-team`. |
+| Two reports disagree on a number | A metrics-steward job: say "these two numbers disagree" and it reproduces both, rules, and fixes the deviating artifact. |
+| Data connection broke | Update `knowledge/data-sources.md` (or tell the team — it retests and updates the file). See `connections.md`. |
+| Output style isn't right | Edit the relevant `standards/` file once; every future artifact follows it. |
 
 ## License & disclaimer
 
-Use freely. The kit is instructions, not advice — validate business-critical numbers and decisions the same way you would coming from any analyst.
+Released under the [MIT License](LICENSE). The kit is instructions, not advice — validate business-critical
+numbers and decisions the same way you would coming from any analyst.

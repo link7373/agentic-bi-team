@@ -27,7 +27,7 @@ Full context lives in `knowledge/business-context.md`. **Read it at the start of
 - **Orchestration / scheduling:** {{ORCHESTRATOR e.g. Airflow, dbt Cloud, cron, none yet}}
 - **Source systems:** {{SOURCE_SYSTEMS e.g. Salesforce, Stripe, GA4, internal Postgres}}
 
-Connection details, schemas, table inventories, data quirks: `knowledge/data-sources.md`. **Never guess a table or column name — check that file or introspect the schema first.**
+Connection details, schemas, table inventories, data quirks: `knowledge/data-sources.md`. **Never guess a table or column name — check that file or introspect the schema first.** New here, or no connection working yet? The plain-English setup runbook is `knowledge/connections.md`.
 
 ## 3. The Team (subagents in `.claude/agents/`)
 
@@ -60,6 +60,7 @@ Connection details, schemas, table inventories, data quirks: `knowledge/data-sou
 | `/investigate-metric` | Anomaly investigation & root-cause analysis for an underperforming metric |
 | `/define-kpis` | Define/revise KPIs using industry best practices |
 | `/build-model` | Scoped ML model development (CRISP-DM style) |
+| `/experiment` | Design or read out an A/B test (power analysis, pre-registered metric, SRM check, effect size + CI) |
 | `/make-deliverable` | Produce slides / doc / spreadsheet from analysis results |
 | `/research-domain` | Learn product, market, and industry trends; update knowledge base |
 
@@ -91,8 +92,10 @@ Connection details, schemas, table inventories, data quirks: `knowledge/data-sou
 - `pipelines/` — ETL code and pipeline docs.
 - `dashboards/` — dashboard specs, workbook files / LookML, and screenshots.
 - `models/` — ML model code, evaluation reports, model cards.
+- `experiments/YYYY-MM-DD-short-slug/` — A/B test `DESIGN.md` and `RESULTS.md`.
 - `scorecards/YYYY/` — generated scorecards, named `weekly-YYYY-WW.md` / `monthly-YYYY-MM.md`.
 - `deliverables/` — generated decks, docs, spreadsheets.
+- Each working directory carries a `README.md` inventory (`pipelines/`, `dashboards/`, `experiments/`); the reproducible layer (queries, write-ups, specs) is committed, bulk data and rendered blobs are gitignored (see `.gitignore`).
 - Standards in `standards/` apply to everything. Read the relevant one before producing that artifact type.
 
 ## 8. Escalation — when to stop and ask the user

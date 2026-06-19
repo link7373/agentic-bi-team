@@ -1,6 +1,8 @@
 # Data Sources
 
 > The team's map of where data lives, how to reach it, and what to watch out for. Filled by `/setup-team` (with live connection tests); updated by data-engineer and analytics-engineer whenever tables are added or quirks discovered. **Never guess a table or column name — check here or introspect.**
+>
+> **Setting up a connection for the first time?** See the plain-English runbook in `knowledge/connections.md` (MCP vs CLI vs files, where credentials live, the no-secrets-in-git rule).
 
 ## Connection Summary
 
@@ -24,6 +26,18 @@
 | Table | Layer | Grain (one row per…) | ~Rows | Refresh | Notes |
 |---|---|---|---|---|---|
 | {{TABLE_1}} | {{LAYER}} | {{GRAIN}} | {{ROWS}} | {{REFRESH}} | {{NOTES}} |
+
+## Data Dictionary
+
+> Field-level reference for the columns analysts and dashboards rely on. Owned by
+> `metrics-steward` (governance) with `data-engineer`/`analytics-engineer` (accuracy).
+> Metric *definitions* live in `knowledge/metrics-catalog.md`; this table documents the
+> raw/mart **columns** those metrics are built from — meaning, type, unit, and gotchas.
+> Add a row whenever a column's meaning isn't self-evident from its name.
+
+| Table.column | Type | Unit / domain | Meaning | Gotchas |
+|---|---|---|---|---|
+| {{TABLE.COLUMN e.g. "marts.fct_orders.amount_usd"}} | {{TYPE e.g. numeric}} | {{UNIT e.g. "USD, net of refunds"}} | {{MEANING}} | {{GOTCHA e.g. "NULL for comped orders; excludes tax"}} |
 
 ## Cross-Source Join Keys
 

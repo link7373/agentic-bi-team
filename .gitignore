@@ -1,17 +1,47 @@
-# Generated output directories — contain potentially sensitive analysis results.
-# Users: review and commit what you want to preserve; exclude what's confidential.
-analyses/
-scorecards/
-deliverables/
-models/
-pipelines/
-dashboards/
+# Work product — keep the reproducible layer, ignore bulk data & rendered blobs.
+#
+# The team's institutional memory is its *text*: queries (.sql), write-ups
+# (FINDINGS.md / SPEC.md / DESIGN.md / MODEL_CARD.md), scripts (.py), specs, and
+# inventory READMEs — these stay in git so every number is reproducible and the
+# history is auditable (CLAUDE.md principle 3). What's ignored below is the
+# large or potentially confidential output: raw extracts, datasets, and rendered
+# decks/workbooks/PDFs that can be regenerated from the tracked code.
+#
+# To preserve a specific output anyway, force-add it: `git add -f path/to/file`.
 
-# Common secrets / environment files
+# Bulk data & extracts (regenerate from the pipeline / query)
+*.csv
+*.tsv
+*.parquet
+*.feather
+*.avro
+*.orc
+*.jsonl
+*.ndjson
+*.sqlite
+*.db
+*.duckdb
+
+# Rendered deliverables & BI binaries (reproducible from analysis + SOURCES.md)
+*.pptx
+*.docx
+*.xlsx
+*.xls
+*.pdf
+*.twbx
+*.twb
+*.pbix
+*.zip
+
+# Secrets / environment files
 .env
 .env.*
 *.env
 secrets.*
+*.key
+*.pem
+credentials.json
+service-account*.json
 
 # Python
 __pycache__/
@@ -27,3 +57,4 @@ venv/
 # OS
 .DS_Store
 Thumbs.db
+.gstack/

@@ -31,7 +31,15 @@ You are configuring the entire Agentic BI team from the user's plain-English cha
 
 8. **Final sweep.** Re-run the placeholder grep. Anything intentionally left open gets converted to an explicit `> TODO (user):` note rather than a raw `{{placeholder}}`.
 
-9. **Report back** with: what was configured, what data sources are live vs blocked, the draft KPI list, defaults applied, and a suggested first task (usually `/define-kpis` to ratify metrics, then `/scorecard weekly` for a first baseline).
+9. **Smoke-test that the team is live.** Before reporting success, confirm:
+   - **No placeholders left:** `grep -rn "{{" --include="*.md" .` returns nothing except intentional `> TODO (user):` notes.
+   - **All 8 agents load:** the `.claude/` folder is at the workspace root; tell the user to run `/agents` and confirm the 8 team members appear.
+   - **Connections respond:** every source marked ✅ in `knowledge/data-sources.md` still answers a live test query (re-run them); anything that fails flips to ❌ with the reason.
+   - **Inventories exist:** `pipelines/README.md`, `dashboards/README.md`, and `experiments/README.md` are present (scaffold any that are missing).
+   - **Knowledge seeded:** `business-context.md`, `data-sources.md`, `stakeholders.md` have no blank required fields, and `metrics-catalog.md` has at least the draft KPI set.
+   Report any check that fails as a TODO rather than claiming a clean setup.
+
+10. **Report back** with: what was configured, what data sources are live vs blocked, the smoke-test results, the draft KPI list, defaults applied, and a suggested first task (usually `/define-kpis` to ratify metrics, then `/scorecard weekly` for a first baseline).
 
 ## Re-running
 Safe to re-run after major changes. Diff against existing knowledge files rather than blindly overwriting — preserve accumulated knowledge (quirks, decisions, table inventories) and merge in the new charter facts.

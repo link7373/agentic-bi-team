@@ -1,5 +1,10 @@
 # Industry Notes
 
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373
+
+
 > The team's external intelligence: industry trends, benchmarks, competitor moves, regulatory changes. Written by `/research-domain`, newest first. Each briefing carries source dates and a review-by date — re-verify anything past its review date before relying on it.
 
 **Industry:** {{INDUSTRY}}

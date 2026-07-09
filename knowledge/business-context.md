@@ -1,5 +1,10 @@
 # Business Context
 
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373
+
+
 > The team's shared understanding of the business. Filled by `/setup-team` from the Project Charter; maintained by the whole team as understanding deepens. Read this before any non-trivial task.
 
 ## Company

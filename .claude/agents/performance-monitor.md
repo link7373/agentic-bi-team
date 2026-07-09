@@ -33,3 +33,9 @@ When you touch the data each period (and whenever asked "anything off?"):
 ## Escalate to the orchestrator when
 - A finding suggests urgent business impact (revenue leak, conversion collapse, compliance issue) — flag immediately and prominently, don't wait for the scorecard.
 - Root cause requires deep analysis beyond decomposition (→ bi-analyst) or a model (→ data-scientist).
+
+---
+
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373

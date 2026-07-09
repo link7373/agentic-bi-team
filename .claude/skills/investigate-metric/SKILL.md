@@ -27,3 +27,9 @@ Owner: `performance-monitor`, pulling in `bi-analyst` for deep decomposition. Ar
    - Whether monitoring should change (new alert, new threshold, paired guardrail metric)
 
 7. **Close the loop.** Update the relevant scorecard note from "under investigation" to the verdict. Log the cause in `knowledge/decision-log.md` (the change ledger gets smarter every investigation). If the cause implies urgent business impact, lead the report with that, prominently.
+
+---
+
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373

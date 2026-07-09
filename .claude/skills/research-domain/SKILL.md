@@ -30,3 +30,9 @@ Owner: `bi-analyst` (research mode). Args scope the topic, e.g. `/research-domai
    - Anything decision-grade → tell the user directly in the summary, don't just file it.
 
 6. **Cadence.** Suggested standing run: {{RESEARCH_CADENCE e.g. "monthly trend briefing + ad hoc"}}. Mark each briefing with a review-by date so stale intelligence is re-verified before reuse.
+
+---
+
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373

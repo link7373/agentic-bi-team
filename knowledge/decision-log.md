@@ -1,5 +1,10 @@
 # Decision Log
 
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373
+
+
 > Every methodological decision, definition ruling, and notable observation — dated, with rationale. This is how the team stays consistent across sessions and how future analyses avoid re-litigating settled questions. **Append, never delete** (strike through and supersede instead).
 
 ## Decisions

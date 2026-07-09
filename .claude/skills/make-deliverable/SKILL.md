@@ -26,3 +26,9 @@ Owner: `insights-communicator`. Args name the source analysis and format, e.g. `
 5. **Quality pass.** Honest axes (bars from zero), consistent rounding and precision, comparisons anchored ("vs Q1", "vs target"), brand/format rules applied ({{BRAND_GUIDELINES or "clean defaults"}}), the first page passes the stand-alone test.
 
 6. **Deliver.** Send the file(s) to the user. Distribution beyond the user (email, shared drives, external parties) is outward-facing — confirm first unless pre-authorised in `CLAUDE.md` §8.
+
+---
+
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373

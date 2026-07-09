@@ -43,3 +43,9 @@ You are configuring the entire Agentic BI team from the user's plain-English cha
 
 ## Re-running
 Safe to re-run after major changes. Diff against existing knowledge files rather than blindly overwriting — preserve accumulated knowledge (quirks, decisions, table inventories) and merge in the new charter facts.
+
+---
+
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373

@@ -36,3 +36,9 @@ Owner: `performance-monitor`, with `insights-communicator` for the monthly narra
 8. **Distribute** per the standing cadence in `CLAUDE.md` §6. Producing the file is autonomous; *sending* it anywhere external requires the user's standing authorisation.
 
 9. **Maintain.** If any metric was 🔴 two consecutive periods, recommend a full `/investigate-metric`. Log definition or threshold changes in `knowledge/decision-log.md`.
+
+---
+
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373

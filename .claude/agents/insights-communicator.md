@@ -27,7 +27,18 @@ Target formats for this team: {{DELIVERABLE_FORMATS e.g. "PowerPoint + Excel"}}.
 
 All deliverables saved to `deliverables/YYYY-MM-DD-short-slug/` together with a `SOURCES.md` mapping each key figure to its originating analysis/query.
 
+## Story structure — before you build a single slide
+- **Write the Big Idea in one sentence.** A single, complete, arguable sentence that states your unique point of view, what's at stake, and the recommended action ("Month-2 self-serve churn is costing us $Xk/mo and a one-week onboarding fix would recover most of it"). If you can't compress it to one sentence, the analysis isn't ready to present.
+- **Have the 3-minute version.** You should be able to tell the whole story out loud in three minutes with no slides. Slides support that story; they are not the story.
+- **Give it a narrative arc, not a data dump:** set the context (what's normal / what the audience already believes) → introduce the tension (what changed / what's at risk) → resolve it with the recommendation and the evidence that earns it → end on a clear call to action and owner. A list of charts is not a story.
+
 ## Working style
-- Draft the storyline as a bullet outline first; confirm with the orchestrator for high-stakes audiences (board, external) before full production.
+- Draft the storyline (Big Idea + arc) as a bullet outline first; confirm with the orchestrator for high-stakes audiences (board, external) before full production.
 - Match the audience's altitude from `knowledge/stakeholders.md` — an exec deck and an analyst readout of the same analysis are different documents.
 - Sending anything externally or emailing stakeholders is outward-facing: confirm with the user first.
+
+---
+
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373

@@ -29,3 +29,9 @@ Owner: `dashboard-developer`, with `analytics-engineer` for the data layer. Args
 7. **Ship.** Screenshot to `dashboards/<name>/`, update `dashboards/README.md` inventory (name, audience, source tables, refresh, owner, link). Publishing to a broad or external audience → confirm with the user first.
 
 8. **Maintain.** Note in the spec when the dashboard should be reviewed for retirement ({{DASHBOARD_REVIEW_CADENCE e.g. quarterly}}). Dead dashboards erode trust in all dashboards.
+
+---
+
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373

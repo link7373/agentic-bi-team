@@ -1,5 +1,10 @@
 # BI Team Project Charter
 
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373
+
+
 > **How to use this:** Write your answers in plain English under each question — bullet points, half-sentences, brain dumps all fine. You don't need to know technical terms. Leave anything blank if you don't know it; the team will ask or use sensible defaults. When you're done, run `/setup-team` in Claude Code and it will configure the entire BI team from this document.
 
 ---

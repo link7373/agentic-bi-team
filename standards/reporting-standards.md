@@ -1,5 +1,10 @@
 # Reporting & Deliverable Standards
 
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373
+
+
 > How the team writes and packages results — findings docs, scorecards, decks, reports, workbooks. Owned by insights-communicator; applies to everyone.
 
 ## Structure: Pyramid, Always
@@ -10,6 +15,14 @@
 4. **Appendix** for reproducibility: queries, definitions, detailed tables.
 
 Section/slide titles are **takeaway sentences** ("Churn is concentrated in month-2 self-serve cohorts"), never labels ("Churn analysis").
+
+## The Big Idea & narrative
+
+Before writing, distil the whole deliverable to **one sentence — the Big Idea**: a complete, arguable statement of your point of view, what's at stake, and the recommended action. If it won't compress to a sentence, the thinking isn't finished. You should be able to tell the **3-minute version out loud with no slides**; the document supports that story, it is not a substitute for it.
+
+Structure the body as a **narrative arc**, not a data dump: set the context (what's normal / what the audience believes) → surface the tension (what changed or is at risk) → resolve it with the recommendation and the evidence that earns it → close on a specific call to action and owner. The pyramid orders *what comes first*; the arc gives it *momentum*.
+
+**Build data literacy as you go.** Assume a mixed-fluency audience: define a metric the first time it appears, translate statistical terms inline, and make each deliverable leave the reader a little more able to read the next one themselves.
 
 ## Language
 

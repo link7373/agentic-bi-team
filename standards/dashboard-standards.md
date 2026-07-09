@@ -1,5 +1,10 @@
 # Dashboard Standards
 
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373
+
+
 > Visual and structural rules for every dashboard the team ships, regardless of tool ({{BI_TOOL}}). Goal: any two team dashboards feel like siblings, and a new viewer gets the headline in five seconds.
 
 ## Layout
@@ -42,6 +47,12 @@
 - Sequential data → single-hue ramps; **diverging** (two hues from a meaningful midpoint — target, prior-year, zero) only when that midpoint is real; categorical → max 6–7 distinguishable hues.
 - **Colour-blind safety (~8% of men have CVD; red/green both read as brown):** never rely on colour alone. Prefer **blue–orange** over red–green for diverging scales; if traffic-light colours are required, add a second encoding (icon, arrow, text). Test with a CVD simulator before shipping.
 - Grey is the default; colour highlights the point. Use colour with a purpose, never for decoration.
+
+## Declutter & Grouping
+
+- **Remove non-data ink.** Heavy gridlines, chart borders, backgrounds, drop shadows, redundant legends, and false-precision decimals add cognitive load without information — strip them. Every element left on the page should be there because it carries meaning.
+- **Group with the eye's rules, not with boxes.** Related tiles read as a group through **proximity** and **alignment**; use whitespace and a grid to separate sections rather than borders and colour blocks. A clean alignment grid is worth more than any divider line.
+- **One focal point per view.** Lead the eye to the single most important thing first (position + one accent colour), then let it travel outward. If everything is emphasised, nothing is.
 
 ## Honesty Rules
 

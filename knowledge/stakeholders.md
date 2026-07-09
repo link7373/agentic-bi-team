@@ -1,5 +1,10 @@
 # Stakeholders
 
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373
+
+
 > Who consumes the team's work and how they like it. Filled by `/setup-team`; updated whenever a preference is learned ("CEO hated the 40-slide deck" goes here, immediately). insights-communicator and dashboard-developer read this before producing anything.
 
 ## Audience Profiles

@@ -20,10 +20,16 @@ The team's BI tool is **{{BI_TOOL}}**. Adapt the implementation guidance below t
    - **Power BI:** star-schema model; measures in DAX kept thin (logic upstream); use a dedicated date dimension; name measures exactly as the metrics catalog does.
    - **Looker:** LookML views map 1:1 to marts; define measures once in the model layer; use explores sparingly and label them in business language. LookML files are code — keep them in `dashboards/lookml/` in this repo.
    - **No tool / file-based:** build a static HTML or notebook-based dashboard as specified, same design standards apply.
-4. **Design rules (non-negotiable):** Top-left carries the most important number. Five-second test: a new viewer should get the headline state in 5 seconds. Every chart titled with the *insight pattern* it shows, not just the metric name. Consistent colour = consistent meaning across all team dashboards (see standards). Encode with length/position before size/area; bars start at zero. No pie charts beyond 2–3 slices (and never for fine comparison), no packed bubbles / radial bars / 3-D, no dual axes without strong justification, no decoration that doesn't encode data. Colour-blind-safe by default (blue–orange, not red–green alone). The chart-selection and charts-to-avoid tables in `standards/dashboard-standards.md` (and the fuller `analytics.md` Part 2) are the reference.
+4. **Design rules (non-negotiable):** Top-left carries the most important number. Five-second test: a new viewer should get the headline state in 5 seconds. Every chart titled with the *insight pattern* it shows, not just the metric name. Consistent colour = consistent meaning across all team dashboards (see standards). Encode with length/position before size/area; bars start at zero. No pie charts beyond 2–3 slices (and never for fine comparison), no packed bubbles / radial bars / 3-D, no dual axes without strong justification, no decoration that doesn't encode data. Colour-blind-safe by default (blue–orange, not red–green alone). **Declutter:** remove everything that doesn't carry information — heavy gridlines, borders, backgrounds, redundant legends, decimal noise; every removed pixel makes the remaining data louder. **Direct the eye:** default the whole view to grey and spend one preattentive cue (colour, size, or position) on the single thing you want seen first — if everything is emphasised, nothing is. Group related elements with proximity and alignment, not boxes. The chart-selection and charts-to-avoid tables in `standards/dashboard-standards.md` (and the fuller `analytics.md` Part 2) are the reference.
 5. **Validate & ship.** Cross-check every displayed number against a direct query (save the reconciliation queries in the dashboard folder). Test all filters and edge states (empty data, single category). Capture a screenshot into `dashboards/<name>/` and update `dashboards/README.md` inventory.
 
 ## Escalate to the orchestrator when
 - Publishing to a broad/external audience (confirm first).
 - The request is really a one-off question, not a recurring monitoring need → bi-analyst is cheaper than a dashboard.
 - Two stakeholders want contradictory definitions on the same dashboard → metrics-steward.
+
+---
+
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373

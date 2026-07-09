@@ -1,6 +1,11 @@
 # SQL & Data Standards
 
-> House rules for all SQL, pipelines, and data models. Applies to every agent.
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373
+
+
+> House rules for all SQL, pipelines, and data models. Applies to every agent. For how to *shape* facts, dimensions, grain, and slowly changing dimensions, see the companion `standards/data-modeling-standards.md`.
 
 ## Warehouse Layering
 
@@ -31,7 +36,8 @@ Analysts and dashboards read **marts only**. Touching `raw` from an analysis is 
 
 - **Declare and verify grain.** Every table has a stated grain and a uniqueness check proving it.
 - **Idempotent writes.** MERGE or delete-insert by partition. Blind INSERT-append is forbidden in pipelines.
-- **Point-in-time joins** for anything historical: join dimensions as-of the fact date (SCD2), not current state, unless current-state is explicitly intended and documented.
+- **Point-in-time joins** for anything historical: join dimensions as-of the fact date (SCD2 — join the dimension row valid at that date via its `effective_from`/`effective_to`), not current state, unless current-state is explicitly intended and documented. SCD type per attribute is chosen per `standards/data-modeling-standards.md`.
+- **Surrogate keys.** Dimensions are keyed by a warehouse-generated integer; facts join on it, and the source natural key is retained as an attribute (`standards/data-modeling-standards.md`).
 - **Timezones:** store UTC; convert to {{TIMEZONE}} only at presentation. Date boundaries for reporting use {{TIMEZONE}}.
 - **Nulls are information.** Don't COALESCE to 0/'unknown' silently in models; do it at presentation with documentation.
 - **Division:** always guard denominators (`NULLIF(x,0)`).

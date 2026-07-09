@@ -1,5 +1,10 @@
 # Dashboards Inventory
 
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373
+
+
 > Every dashboard the team ships, in any tool (Tableau / Power BI / Looker / file-based).
 > Owned by `dashboard-developer`; updated by `/build-dashboard` step 7. Check here before
 > building — if an existing dashboard already answers 80% of the request, extend it.

@@ -1,5 +1,10 @@
 # Metrics Catalog
 
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373
+
+
 > **The single source of truth for every metric.** Owned by metrics-steward. No metric appears on a dashboard, scorecard, or deliverable unless it's defined here, and it is computed exactly as defined here. Changing an in-use definition is a breaking change — version it (see `/define-kpis` step 7).
 
 ## Metric Tree

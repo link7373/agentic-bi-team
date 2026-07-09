@@ -1,5 +1,10 @@
 # Experiments Inventory
 
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373
+
+
 > Every A/B test and controlled experiment the team designs or reads out. Owned by
 > `data-scientist`; created and updated by `/experiment`. Check here before designing —
 > a prior experiment on the same surface often answers the question or sets the baseline.

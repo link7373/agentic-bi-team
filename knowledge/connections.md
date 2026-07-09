@@ -1,5 +1,10 @@
 # Connecting Your Data — Setup Cookbook
 
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373
+
+
 > The make-or-break step. Everything the team does downstream assumes Claude Code can reach
 > your data. This is the plain-English runbook for getting there. `/setup-team` reads your
 > charter, tries each method below, and records what worked in `knowledge/data-sources.md`.

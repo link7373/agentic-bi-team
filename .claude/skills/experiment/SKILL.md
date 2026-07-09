@@ -57,6 +57,7 @@ Default to design if no results exist yet.
    segment heterogeneity (does one segment drive it — Simpson's paradox?); novelty/primacy
    effects; outlier sensitivity on skewed metrics (report robust/median where the metric is
    heavy-tailed). Distinguish "no effect" from "underpowered."
+   - **Incremental effect, not just averages.** The treated-vs-control gap *is* the causal lift — the raw treated rate is not. When the effect varies across segments, that heterogeneity is the seed of **uplift modelling**: the clean control group lets `data-scientist` model *who is persuadable* (largest incremental effect) so future targeting spends only where the treatment actually moves the needle.
 
 5. **Decide and write `experiments/YYYY-MM-DD-<slug>/RESULTS.md`:**
    - **Verdict:** ship / don't ship / inconclusive — with the effect estimate + CI and a
@@ -70,3 +71,9 @@ Default to design if no results exist yet.
 6. **Close the loop.** Update `experiments/README.md` with the decision, log the ruling in
    `knowledge/decision-log.md`, and if the test changed a metric's interpretation, route it to
    `metrics-steward`.
+
+---
+
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373

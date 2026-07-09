@@ -29,3 +29,9 @@ Owner: `metrics-steward`. Args may scope it, e.g. `/define-kpis marketing funnel
 7. **Reconcile with existing reporting.** Diff new definitions against what current dashboards/scorecards compute. Any change to an in-use definition is a breaking change: version it, quantify the restatement on the last 3 reported periods, list affected artifacts, and get user sign-off before switching.
 
 8. **Record & propagate.** Log decisions in `knowledge/decision-log.md`. Update the scorecard KPI set. Hand affected dashboards to `dashboard-developer` and affected marts to `analytics-engineer` for alignment.
+
+---
+
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373

@@ -1,5 +1,10 @@
 # 📊 Agentic BI Team for Claude Code
 
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373
+
+
 **A complete Business Intelligence & Data Analytics team, built from Claude sub-agents and skills.**
 Fill in one plain-English charter, run one command, and get a virtual BI function that builds pipelines,
 models huge datasets, answers business questions, ships dashboards, defines KPIs, monitors metrics,

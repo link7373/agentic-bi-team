@@ -1,5 +1,10 @@
 # Analytics Reference
 
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373
+
+
 This file is the BI team's standing analytical framework for data analysis, insight writing, and visualization.
 
 Referenced in analyses, scorecards, reports, dashboards, and any work involving interpreting or presenting data.
@@ -54,7 +59,7 @@ A trend visible in every subgroup can reverse or disappear in the aggregate. Con
 
 **Mechanism:** A confounding variable (e.g., age) is correlated with both the grouping variable and the outcome. As the composition of the aggregate changes over time (e.g., an aging population), the aggregate trend shifts even if every individual subgroup trend is opposite.
 
-**Real examples from the book:**
+**Real-world examples:**
 - American optimism: *increased* within every birth cohort over their lifetimes, but *decreased* in the aggregate because pessimistic younger cohorts replaced optimistic older ones.
 - Real wages: *increased* within every education level, but *decreased* in the aggregate because the workforce shifted toward lower-education brackets.
 - COVID vaccines: vaccinated people in the 10-59 age band appeared to die at *higher* rates than unvaccinated — because older people in that band were both more likely to be vaccinated AND more likely to die of any cause. Within each 5-year age bracket, vaccinated people died at lower rates in every single bracket.
@@ -79,7 +84,7 @@ When interpreting the result of a test (statistical, medical, algorithmic), most
 
 The positive predictive value depends critically on the **base rate** — what fraction of the tested population actually has the condition.
 
-**Example from the book:** A test with 87% sensitivity and 98% specificity applied to a population with 1% prevalence yields only a 30% positive predictive value — 70% of positive results are false positives.
+**Worked example:** A test with 87% sensitivity and 98% specificity applied to a population with 1% prevalence yields only a 30% positive predictive value — 70% of positive results are false positives.
 
 **Applications:**
 - Composite index comparisons: a segment with a "high" index score usually contains many ordinary members and a few extreme ones — don't equate the aggregate with any individual member.
@@ -306,6 +311,22 @@ Data exploration is non-linear. A dashboard is a starting point, not an endpoint
 - eventually arriving at a defensible claim
 
 This squiggle of exploration should happen *before* publishing any insight. The published result shows the endpoint, not the messy path.
+
+---
+
+### Narrative & the Big Idea
+
+Charts inform; **stories persuade and get remembered.** Once the analysis is done, communicating it is a separate craft:
+
+1. **Understand the context first.** Before choosing any visual, know *who* the audience is, *what* you need them to know or do, and *how* you'll deliver it (live vs. sent-to-read change everything). The same finding becomes a different artifact for a different audience.
+
+2. **The Big Idea — one sentence.** Compress the entire message to a single, complete, arguable sentence: your point of view, what's at stake, and the recommended action. If it won't compress, the thinking isn't finished.
+
+3. **The 3-minute story.** You should be able to tell the whole thing out loud in three minutes with no visuals. The deck/report *supports* that story; it is not the story.
+
+4. **Narrative arc, not a data dump.** Borrow story structure: **setup** (the context / status quo the audience accepts) → **tension** (what changed, the problem, what's at risk) → **resolution** (your recommendation and the evidence that earns it) → **call to action** (specific, owned). Tension is what makes an audience care; a list of charts has none.
+
+5. **Repetition and the "so what."** State the takeaway, show the evidence, restate the takeaway. Every element that survives must serve the Big Idea — if it doesn't, cut it.
 
 ---
 

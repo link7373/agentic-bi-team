@@ -1,5 +1,10 @@
 # Data Sources
 
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373
+
+
 > The team's map of where data lives, how to reach it, and what to watch out for. Filled by `/setup-team` (with live connection tests); updated by data-engineer and analytics-engineer whenever tables are added or quirks discovered. **Never guess a table or column name — check here or introspect.**
 >
 > **Setting up a connection for the first time?** See the plain-English runbook in `knowledge/connections.md` (MCP vs CLI vs files, where credentials live, the no-secrets-in-git rule).

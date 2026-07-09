@@ -13,12 +13,12 @@ Coordinates `data-engineer` (ingestion, raw→staging) and `analytics-engineer` 
 
 2. **Check for existing work.** Search `pipelines/` and the warehouse for tables that already cover this. Extending beats duplicating.
 
-3. **Design doc first.** Write `pipelines/<name>/DESIGN.md` (half a page): source → layers → target table(s) with grain, refresh strategy (full/incremental + watermark), schedule, quality checks, estimated volume/cost. For large or costly builds, confirm the design with the user before implementing.
+3. **Design doc first.** Write `pipelines/<name>/DESIGN.md` (half a page): source → layers → target table(s) with grain, refresh strategy (full/incremental + watermark), schedule, quality checks, estimated volume/cost. When the target is a mart, design it with the **four steps** (`standards/data-modeling-standards.md`): name the business process → **declare the grain** ("one row per ___") → dimensions → facts; and pick the **fact type** (transaction / periodic snapshot / accumulating snapshot / factless) that matches the process. For large or costly builds, confirm the design with the user before implementing.
 
 4. **Implement, layer by layer** (per `standards/sql-and-data-standards.md`):
    - `raw`: verbatim landing, load metadata columns (`_loaded_at`, `_source`).
    - `staging`: typed, renamed to convention, deduplicated, one view/table per source entity.
-   - `marts`/`agg`: the consumer-facing table. Header comment documents purpose, grain, refresh, owner.
+   - `marts`/`agg`: the consumer-facing table. Header comment documents purpose, grain, refresh, owner. Use **surrogate keys** and **conformed** dimensions (reuse the shared `dim_customer`/`dim_date`, don't fork a new one). For dimensions whose history matters, set the **SCD** strategy per attribute — Type 2 (effective-dated rows) where history is needed, Type 1 (overwrite) where it isn't — and note it in the header.
    - Idempotent writes only (MERGE / delete-insert by partition). Test on a limited date range first.
 
 5. **Quality gates.** End-of-pipeline checks that fail loudly: source-vs-target row reconciliation, key uniqueness at declared grain, null thresholds on critical columns, freshness check. Save as runnable queries in `pipelines/<name>/checks/`.
@@ -28,3 +28,9 @@ Coordinates `data-engineer` (ingestion, raw→staging) and `analytics-engineer` 
 7. **Schedule** on {{ORCHESTRATOR}}; if none, document the exact command and recommended cron in the design doc.
 
 8. **Document & hand off.** Update `pipelines/README.md` (inventory + runbook) and `knowledge/data-sources.md` (new tables, grains, quirks discovered). Tell the user: what was built, sample of the output, refresh schedule, and cost/runtime observed.
+
+---
+
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373

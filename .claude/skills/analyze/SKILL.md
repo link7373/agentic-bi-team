@@ -11,7 +11,7 @@ Primary owner: `bi-analyst`. Args carry the question, e.g. `/analyze why is ente
 
 1. **Frame the decision.** Restate as: "We are deciding ___; this analysis informs it by ___; the answer would change the decision if ___." If the user's question is exploratory ("tell me about our customers"), propose 3 sharp sub-questions and confirm direction.
 
-2. **Plan.** Create `analyses/YYYY-MM-DD-<slug>/` with a `PLAN.md`: hypothesis tree, data needed, join strategy, expected outputs. For multi-day-scale work, share the plan before executing.
+2. **Plan.** Create `analyses/YYYY-MM-DD-<slug>/` with a `PLAN.md`: hypothesis tree, data needed, join strategy, expected outputs. Make each hypothesis **falsifiable** and rank them by expected impact × ease of checking — test the cheapest decisive one first rather than boiling the ocean. For multi-day-scale work, share the plan before executing.
 
 3. **Gather & profile.** Pull from sources per `knowledge/data-sources.md`. Profile every dataset before use: row counts, date coverage, key uniqueness, null rates. For **cross-database joins**: identify join keys, measure and report match rates, characterise the unmatched population (bias check). Materialise intermediates (local DuckDB/sqlite/parquet is fine) instead of repeated cross-system pulls.
 
@@ -30,3 +30,9 @@ Primary owner: `bi-analyst`. Args carry the question, e.g. `/analyze why is ente
 7. **Hand off as needed.** Stakeholder-grade packaging → `insights-communicator` (`/make-deliverable`). Recurring need → propose a dashboard or summary table. Modelling opportunity → note it for `data-scientist`.
 
 8. **Update memory.** New data quirks → `knowledge/data-sources.md`. Methodological choices → `knowledge/decision-log.md`.
+
+---
+
+> **Created by Colin Beck**
+> LinkedIn: https://www.linkedin.com/in/beckcolin/
+> GitHub: https://github.com/link7373

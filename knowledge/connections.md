@@ -72,6 +72,38 @@ environment. If the team ever needs a credential it doesn't have, it will **stop
 **❌ blocked** (with what's needed to unblock) otherwise. Nothing is recorded as available
 untested. The per-source results live in the Connection Summary of `knowledge/data-sources.md`.
 
+## Connecting to your BI tool
+
+Reaching your **data** is step one; reaching your **dashboard tool** is a separate question,
+and the answer differs a lot by tool. `{{BI_TOOL}}` is whatever you named in
+`START-HERE.md` — Tableau, Power BI, Looker, Excel, or nothing yet. **"Nothing yet" is a
+valid answer:** the team builds self-contained HTML dashboards that need no tool at all.
+
+For most tools the honest position is that the team produces the artifact and the setup
+steps, and a human does the import. **Power BI is the exception**, because its project
+format (PBIP) is plain text — so the team can build, edit, and validate the real thing.
+
+If `{{BI_TOOL}}` is Power BI, capability comes in tiers, and the first one needs no
+installs beyond Power BI Desktop:
+
+| Tier | You need | The team can |
+|---|---|---|
+| **1 — PBIP authoring** | Power BI Desktop + Python | Build and edit the whole project: model, pages, visuals, theme — and validate it |
+| **2 — CLI-accelerated** | `pbir-cli` installed | Bulk formatting across visuals, backup/restore, publish |
+| **3 — Fabric-connected** | Fabric CLI or MCP | Deploy to workspaces, refresh, read remote items |
+
+Two things to know before starting:
+
+- **Turn on the preview features.** In Desktop, *File → Options and settings → Options →
+  Preview features*: enable the `.pbip` save option, TMDL for the semantic model, and PBIR
+  for reports. Without these the files stay in older binary-ish formats the team can't edit.
+- **Tier 2 has a licence catch.** `pbir-cli` is excellent but **non-commercial use only**.
+  The team will tell you this before ever suggesting you install it, and it works perfectly
+  well without it.
+
+Details live in `.claude/skills/powerbi/references/tooling-tiers.md`; run `/powerbi` and it
+will detect your tier and say which one it's working in.
+
 ## Troubleshooting
 
 | Symptom | Likely cause / fix |

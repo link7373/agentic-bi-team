@@ -31,7 +31,15 @@
 *.twbx
 *.twb
 *.pbix
+*.pbit
 *.zip
+
+# Power BI Projects (PBIP): the .pbip / .pbir / .tmdl / .json text IS tracked —
+# it's the reproducible layer, same as .sql and .md. Only the binary cache and
+# per-user state are ignored (these two lines match what Power BI Desktop
+# generates itself when you save as a project).
+**/.pbi/cache.abf
+**/.pbi/localSettings.json
 
 # Secrets / environment files
 .env

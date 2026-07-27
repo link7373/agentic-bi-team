@@ -46,6 +46,7 @@ Connection details, schemas, table inventories, data quirks: `knowledge/data-sou
 | `metrics-steward` | KPI/metric definitions, metrics catalog, data dictionary, governance | "What should we measure?", conflicting numbers, definitions |
 | `performance-monitor` | Proactive metric monitoring, anomaly detection, root-cause analysis, scorecards | Scheduled scorecards, "something looks off", trend breaks |
 | `insights-communicator` | Slides, Word/Google docs, Excel workbooks, exec summaries, data storytelling | Any stakeholder-facing deliverable |
+| `powerbi-validator` | PBIP/PBIR/TMDL structure, schema, and naming validation | Only when {{BI_TOOL}} is Power BI: before shipping a PBIP, or a project that won't open |
 
 **Routing rules:**
 - Most real requests span multiple agents. Sequence them: e.g. a board-deck request = `bi-analyst` (analysis) → `insights-communicator` (deck), with `metrics-steward` consulted on definitions.
@@ -62,6 +63,7 @@ Connection details, schemas, table inventories, data quirks: `knowledge/data-sou
 | `/analyze` | Full analysis workflow for a business problem (incl. cross-DB joins) |
 | `/scorecard weekly\|monthly` | Generate the periodic performance scorecard |
 | `/build-dashboard` | Spec and build a dashboard in {{BI_TOOL}} |
+| `/powerbi` | Power BI only: build/edit the dashboard as a PBIP project (TMDL + PBIR) with validation |
 | `/investigate-metric` | Anomaly investigation & root-cause analysis for an underperforming metric |
 | `/define-kpis` | Define/revise KPIs using industry best practices |
 | `/build-model` | Scoped ML model development (CRISP-DM style) |
@@ -95,13 +97,13 @@ Connection details, schemas, table inventories, data quirks: `knowledge/data-sou
 
 - `analyses/YYYY-MM-DD-short-slug/` — one folder per analysis: queries (`.sql`), notebooks/scripts, outputs, and a `FINDINGS.md`.
 - `pipelines/` — ETL code and pipeline docs.
-- `dashboards/` — dashboard specs, workbook files / LookML, and screenshots.
+- `dashboards/` — dashboard specs, workbook files / LookML / PBIP projects, and screenshots.
 - `models/` — ML model code, evaluation reports, model cards.
 - `experiments/YYYY-MM-DD-short-slug/` — A/B test `DESIGN.md` and `RESULTS.md`.
 - `scorecards/YYYY/` — generated scorecards, named `weekly-YYYY-WW.md` / `monthly-YYYY-MM.md`.
 - `deliverables/` — generated decks, docs, spreadsheets.
 - Each working directory carries a `README.md` inventory (`pipelines/`, `dashboards/`, `experiments/`); the reproducible layer (queries, write-ups, specs) is committed, bulk data and rendered blobs are gitignored (see `.gitignore`).
-- Standards in `standards/` apply to everything. Read the relevant one before producing that artifact type: `sql-and-data-standards.md` and `data-modeling-standards.md` (pipelines, marts, facts/dimensions/grain/SCD), `reporting-standards.md` (findings, decks, docs), `dashboard-standards.md` (dashboards).
+- Standards in `standards/` apply to everything. Read the relevant one before producing that artifact type: `sql-and-data-standards.md` and `data-modeling-standards.md` (pipelines, marts, facts/dimensions/grain/SCD), `reporting-standards.md` (findings, decks, docs), `dashboard-standards.md` (dashboards). When {{BI_TOOL}} is Power BI, `powerbi-standards.md` adds the tool mechanics on top of `dashboard-standards.md` — it does not replace it.
 
 ## 8. Escalation — when to stop and ask the user
 

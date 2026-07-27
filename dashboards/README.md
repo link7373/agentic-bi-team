@@ -12,6 +12,10 @@
 Each dashboard lives in `dashboards/<name>/` with a `SPEC.md` (audience, questions, metrics,
 layout), reconciliation queries in `dashboards/<name>/checks/`, and a screenshot.
 Looker projects keep LookML in `dashboards/lookml/`.
+Power BI dashboards are committed as **PBIP projects** — `<Name>.pbip`, `<Name>.Report/`
+(PBIR), and `<Name>.SemanticModel/` (TMDL) alongside the spec. That text is tracked
+deliberately; only binaries and per-user state are gitignored. See `/powerbi` and
+`standards/powerbi-standards.md`.
 
 ## Inventory
 

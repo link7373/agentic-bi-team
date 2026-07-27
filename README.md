@@ -13,8 +13,8 @@ statistical framework and persisted across sessions.
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 ![Built for](https://img.shields.io/badge/Built%20for-Claude%20Code-8A2BE2.svg)
-![Agents](https://img.shields.io/badge/Agents-8-2563EB.svg)
-![Skills](https://img.shields.io/badge/Skills-11-2563EB.svg)
+![Agents](https://img.shields.io/badge/Agents-9-2563EB.svg)
+![Skills](https://img.shields.io/badge/Skills-12-2563EB.svg)
 
 Everything is plain Markdown. No app, no SaaS, no lock-in — the "team" is a set of instruction files that
 Claude Code reads.
@@ -26,7 +26,7 @@ Claude Code reads.
 A real BI team is a group of specialists working a shared operating rhythm: data engineers, analytics
 engineers, analysts, dashboard developers, data scientists, a metrics steward, a performance monitor, and
 someone who turns analysis into something an executive will act on. This kit recreates that team as
-**8 role-based agents** coordinated by a **Head of BI** orchestrator, driven by **11 plain-English
+**9 role-based agents** coordinated by a **Head of BI** orchestrator, driven by **12 plain-English
 workflows**, and anchored by a **persistent knowledge base** plus a standing **statistical-reasoning
 framework** so the numbers are trustworthy and the context survives across sessions.
 
@@ -46,8 +46,8 @@ flowchart TD
 A(["👤 You · plain English"]) -->|"fill in once"| B["📋 START-HERE.md — the charter"]
 B -->|"/setup-team"| M
 A -->|"requests"| M{{"📊 Head of BI — orchestrator (CLAUDE.md)"}}
-M --> SK[/"11 Skills · workflows"/]
-SK --> AG["👥 8 Specialist Agents — data · analysis · delivery"]
+M --> SK[/"12 Skills · workflows"/]
+SK --> AG["👥 9 Specialist Agents — data · analysis · delivery"]
 AG --> KN[("🧠 knowledge/ — source of truth")]
 AG --> ST[("📐 standards/ — house style")]
 AG --> AR[("🧮 analytics.md — stats & viz framework")]
@@ -64,7 +64,7 @@ class KN,ST,AR store;
 | Part | What it is |
 |------|------------|
 | 📊 **Orchestrator** (`CLAUDE.md`) | The Head of BI — routes requests, sequences multi-step work, runs the cadence, owns final QA. Auto-loaded every session. |
-| 👥 **Agents** (`.claude/agents/`) | 8 specialists, each scoped to a role with deep, role-specific instructions. |
+| 👥 **Agents** (`.claude/agents/`) | 9 specialists, each scoped to a role with deep, role-specific instructions. |
 | ⚙️ **Skills** (`.claude/skills/`) | 11 slash-command workflows with step-by-step procedures. |
 | 🧠 **Knowledge** (`knowledge/`) | Persistent memory — business context, data sources, the metrics catalog, stakeholders, decisions. The **source of truth**. |
 | 📐🧮 **Standards & framework** | House style (`standards/`) and the standing statistical-reasoning + visualization reference (`analytics.md`). |
@@ -127,7 +127,7 @@ MD -. "next cycle" .-> DK
 4. **Just ask.** Talk to the Head of BI in business English, or invoke a workflow directly. From here the
    team is live.
 
-## The team — 8 agents
+## The team — 9 agents
 
 **Data foundation**
 
@@ -156,8 +156,9 @@ MD -. "next cycle" .-> DK
 |-------|------|
 | `dashboard-developer` | Dashboards in Tableau / Power BI / Looker (or self-contained HTML), visual design |
 | `insights-communicator` | Exec summaries, decks, docs, workbooks, data storytelling — the last mile |
+| `powerbi-validator` | PBIP structure, TMDL/PBIR schemas, naming, field references — Power BI teams only |
 
-## The workflows — 11 skills
+## The workflows — 12 skills
 
 | Skill | What it does | Lead agent |
 |-------|--------------|------------|
@@ -171,7 +172,41 @@ MD -. "next cycle" .-> DK
 | `/experiment` | Design or read out an A/B test (power analysis, pre-registered metric, SRM, effect size + CI) | data-scientist |
 | `/scorecard weekly\|monthly` | The periodic performance scorecard — fixed KPI set, status colours, narrative | performance-monitor + insights-communicator |
 | `/build-dashboard` | Spec → data layer → build → number-by-number validation, in the team's BI tool | dashboard-developer + analytics-engineer |
+| `/powerbi` | Power BI only: PBIP project as code — TMDL model, PBIR report, theme, validation gate | dashboard-developer + powerbi-validator |
 | `/make-deliverable` | Pyramid-structured deck / doc / workbook with every figure source-mapped | insights-communicator |
+
+## Power BI: dashboards as code
+
+For most BI tools the team produces the artifact and the setup steps, and a human does
+the import. **Power BI is the exception.** A Power BI Project (PBIP) is plain text —
+TMDL for the semantic model, PBIR JSON for the report — so the team builds, edits, and
+validates the real thing, and it version-controls like any other work product.
+
+Set `{{BI_TOOL}}` to Power BI and `/build-dashboard` hands implementation to
+[`/powerbi`](.claude/skills/powerbi/SKILL.md), which authors the star-schema model,
+pages and visuals, and a theme that encodes the design standards once instead of
+per-visual.
+
+**Then it checks its work.** `validate_pbip.py` (standard library, no installs) runs
+~35 checks and catches the failures Power BI Desktop *doesn't report*:
+
+- a page folder named `My Page` — Desktop silently ignores it and the page vanishes
+- schema versions left at `1.0.0` — the model loads, zero pages render, no error
+- a UTF-8 BOM in the gitignored `.pbi/localSettings.json` — invisible in git, fatal on open
+- a theme registered in `themeCollection` but not `resourcePackages` — silently no theme
+- a measure bound to a table that no longer exists
+
+Every one of those was found by opening a real project in Desktop *after* the validator
+said clean. They're now regression tests: `python .claude/skills/powerbi/tests/run_tests.py`
+builds a working PBIP plus 16 injected defects and asserts each raises its specific code.
+
+Capability degrades gracefully — **Tier 1 needs only Power BI Desktop and Python** and
+is enough to build a complete dashboard. Optional accelerators (`pbir-cli`, Fabric CLI)
+are detected if you've installed them, never bundled, and the team tells you
+`pbir-cli` is non-commercial-only *before* suggesting it.
+
+None of this loads for teams on another tool: `/powerbi` checks `{{BI_TOOL}}` and bows
+out, and all the depth sits in reference files read only when a Power BI step runs.
 
 ## Knowledge & memory
 
@@ -215,6 +250,11 @@ House style lives in `standards/`, and the relevant file is read before producin
   proportionate caveats, the statistical-integrity non-negotiables and hygiene checklist.
 - **`dashboard-standards.md`** — Z-pattern layout, the five-second test, chart-selection & charts-to-avoid
   tables, semantic colour, honesty rules, the dead-end-dashboard guard.
+- **`data-modeling-standards.md`** — facts & dimensions, grain, surrogate keys, slowly-changing dimensions.
+- **`powerbi-standards.md`** — *Power BI teams only.* Star schema, one date table, catalog-exact measure
+  names, thin DAX, theme-first formatting, the naming rule, the validation gate. Defers to
+  `dashboard-standards.md` for every design decision, so there's still one source of truth for chart
+  choice and colour.
 
 ## Configuration & integrations
 
@@ -238,6 +278,14 @@ non-technical runbook (including the no-secrets-in-git rule) is [`knowledge/conn
 BI**, and **Looker**; with no direct API access it produces import-ready artifacts plus setup steps; with
 no BI tool at all it builds self-contained HTML dashboards.
 
+**Power BI goes further.** Because a Power BI project (PBIP) is plain text — TMDL for the semantic
+model, PBIR JSON for the report — the team builds the real artifact rather than instructions for one.
+Set `{{BI_TOOL}}` to Power BI and [`/powerbi`](.claude/skills/powerbi/SKILL.md) authors the model,
+pages, visuals, and theme, then runs a deterministic validator that catches the failures Power BI
+Desktop *doesn't* report — most importantly the naming rule that makes a page silently vanish. The
+`powerbi-validator` agent gates anything stakeholder-facing, and dashboards get committed to git like
+any other reproducible work product. None of this loads for teams on another tool.
+
 **Safety rails.** Two placeholders in `CLAUDE.md` §8 govern autonomy: a **never-without-asking** list
 (destructive or outward-facing actions always confirm unless pre-authorised) and a **pre-authorised** list.
 Privacy rules propagate into querying, dashboards, and exports, including minimum aggregation sizes.
@@ -252,6 +300,7 @@ Privacy rules propagate into querying, dashboards, and exports, including minimu
 | Metric definitions, targets, thresholds | `knowledge/metrics-catalog.md` (or run `/define-kpis`) |
 | SQL conventions, naming, quality gates | `standards/sql-and-data-standards.md` |
 | Chart / colour / layout rules | `standards/dashboard-standards.md` |
+| Power BI model, DAX, PBIP rules | `standards/powerbi-standards.md` |
 | Report structure, tone, branding | `standards/reporting-standards.md` |
 | Who gets what, in which format | `knowledge/stakeholders.md` |
 
@@ -272,13 +321,17 @@ agentic-bi-team/
 ├─ analytics.md             # statistical-reasoning & visualization framework
 ├─ LICENSE · .gitignore · .gitattributes
 ├─ .claude/
-│  ├─ agents/               # 8 specialist sub-agents
-│  └─ skills/               # 11 slash-command workflows
+│  ├─ agents/               # 9 specialist sub-agents
+│  └─ skills/               # 12 slash-command workflows
+│     └─ powerbi/           # Power BI only — loaded on demand
+│        ├─ references/     #   PBIP · PBIR · TMDL · DAX · theme · gotchas
+│        ├─ scripts/        #   validate_pbip.py (stdlib, no installs)
+│        └─ tests/          #   regression suite: 1 clean + 16 defect fixtures
 ├─ knowledge/               # persistent memory — source of truth
 │  ├─ business-context.md · data-sources.md · connections.md
 │  ├─ metrics-catalog.md · stakeholders.md
 │  ├─ industry-notes.md · decision-log.md
-├─ standards/               # sql-and-data · reporting · dashboard house style
+├─ standards/               # sql-and-data · data-modeling · reporting · dashboard · powerbi
 ├─ analyses/                # generated: one folder per analysis (queries + FINDINGS.md)
 ├─ pipelines/ · dashboards/ · experiments/   # generated: each with a README inventory
 ├─ models/ · scorecards/ · deliverables/     # generated: model cards, scorecards, decks
@@ -318,6 +371,24 @@ Working directories (`analyses/`, `pipelines/`, `dashboards/`, `models/`, `exper
 | Two reports disagree on a number | A metrics-steward job: say "these two numbers disagree" and it reproduces both, rules, and fixes the deviating artifact. |
 | Data connection broke | Update `knowledge/data-sources.md` (or tell the team — it retests and updates the file). See `connections.md`. |
 | Output style isn't right | Edit the relevant `standards/` file once; every future artifact follows it. |
+| Power BI project won't open, or opens blank | Run `python .claude/skills/powerbi/scripts/validate_pbip.py dashboards/<name>`. Blank report with a working model is almost always stale schema versions (PBIR014); refusal to open is almost always a BOM (ENC001). |
+
+## Acknowledgements
+
+The Power BI module's architecture — splitting knowledge by artifact type, keeping the skill thin with
+reference files loaded on demand, pairing a builder agent with a separate validator, and trusting
+deterministic checks over model confidence — was learned from
+[**power-bi-agentic-development**](https://github.com/data-goblin/power-bi-agentic-development) by Kurt
+Buhler (Data Goblins). The report-as-addressable-object workflow, and the back-up-before-mutating /
+validate-after safety conventions, come from [**pbir.tools**](https://github.com/maxanatsko/pbir.tools) by
+Maxim Anatsko and Kurt Buhler. Both are excellent and more specialised than this module aims to be — if
+you work in Power BI daily, install them.
+
+**No code or text was copied from either project.** This module is original work written against
+Microsoft's published PBIP/PBIR/TMDL documentation and JSON schemas, because this repository is MIT while
+power-bi-agentic-development is GPL-3.0 and pbir.tools prohibits derivative works. `pbir-cli` is treated
+as an optional, detected accelerator — never a dependency — and the team surfaces its non-commercial
+licence restriction before ever suggesting you install it.
 
 ## License & disclaimer
 

@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash(python scripts/*)",
+      "Bash(python demo/*)",
+      "Bash(python .claude/skills/powerbi/scripts/*)",
+      "Bash(python .claude/skills/powerbi/tests/*)",
+      "Bash(git status)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(git add:*)",
+      "Bash(ls:*)",
+      "Bash(cat:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(wc:*)"
+    ],
+    "ask": [
+      "Bash(psql:*)",
+      "Bash(mysql:*)",
+      "Bash(snowsql:*)",
+      "Bash(bq:*)",
+      "Bash(sqlite3:*)",
+      "Bash(duckdb:*)",
+      "Bash(clickhouse-client:*)",
+      "Bash(dbt:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(pip install:*)",
+      "Bash(python -m pip:*)",
+      "WebFetch"
+    ],
+    "deny": [
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(**/secrets.*)",
+      "Read(**/credentials.json)",
+      "Read(**/service-account*.json)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Bash(rm -rf:*)",
+      "Bash(git push --force:*)",
+      "Bash(git reset --hard:*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python scripts/hooks/block_destructive_sql.py"
+          }
+        ]
+      }
+    ]
+  }
+}

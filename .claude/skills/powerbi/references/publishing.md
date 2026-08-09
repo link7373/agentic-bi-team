@@ -1,5 +1,7 @@
 # Publishing — getting it in front of people
 
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/
+
 > Publishing is **outward-facing**. `CLAUDE.md §8` applies: confirm with the user
 > before pushing to any broad audience, unless pre-authorised in
 > `{{PRE_AUTHORISED_ACTIONS}}`.

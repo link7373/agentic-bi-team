@@ -1,5 +1,7 @@
 # Tooling Tiers — what the team can actually do
 
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/
+
 > Read at `/powerbi` step 2. Detect the tier, state it, then work within it.
 
 Power BI capability is not binary. Each tier below unlocks more, and **any one of

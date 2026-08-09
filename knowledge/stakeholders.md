@@ -1,8 +1,6 @@
 # Stakeholders
 
-> **Created by Colin Beck**
-> LinkedIn: https://www.linkedin.com/in/beckcolin/
-> GitHub: https://github.com/link7373
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/
 
 
 > Who consumes the team's work and how they like it. Filled by `/setup-team`; updated whenever a preference is learned ("CEO hated the 40-slide deck" goes here, immediately). insights-communicator and dashboard-developer read this before producing anything.
@@ -18,15 +16,35 @@
 - **Known preferences/pet peeves:** {{e.g. "wants a recommendation, not options; hates pie charts"}}
 
 ### {{AUDIENCE_2 e.g. "Marketing team"}}
-- **Who:** {{...}}
-- **Cares about:** {{...}}
-- **Technical level:** {{...}}
-- **Preferred format & length:** {{...}}
-- **Cadence they expect:** {{...}}
-- **Known preferences/pet peeves:** {{...}}
+- **Who:** {{names or roles}}
+- **Cares about:** {{what they act on}}
+- **Technical level:** {{low / medium / high}}
+- **Preferred format & length:** {{format and length}}
+- **Cadence they expect:** {{cadence}}
+- **Known preferences/pet peeves:** {{preferences}}
 
 ### {{AUDIENCE_3 e.g. "Board / investors"}}
 - (same template — external audiences: everything sent here needs explicit user approval)
+
+## Service Levels
+
+> What each audience can expect, so "when will this be ready?" has an answer before it's
+> asked. These are commitments the team plans against — `/triage` sizes against them, and
+> a request that can't meet one gets that said up front rather than discovered late.
+
+| Audience | Ad-hoc question | Full analysis | Scheduled reporting | Incident notice |
+|---|---|---|---|---|
+| {{AUDIENCE_1}} | {{e.g. "same day"}} | {{e.g. "3 working days"}} | {{e.g. "monthly, 1st business day"}} | {{e.g. "immediately, SEV-1"}} |
+| {{AUDIENCE_2}} | {{turnaround}} | {{turnaround}} | {{cadence}} | {{when}} |
+| {{AUDIENCE_3}} | {{turnaround}} | {{turnaround}} | {{cadence}} | {{when}} |
+
+Two rules that keep these honest:
+
+- **The standing cadence is not displaced by ad-hoc work.** Scorecards and health checks
+  are what catch the problems nobody asked about; the moment they slip for a week of
+  urgent requests, they stop happening.
+- **A missed commitment gets communicated before the deadline, not after.** A revised
+  date given early is a minor inconvenience; the same date given late is a broken promise.
 
 ## Distribution Rules
 

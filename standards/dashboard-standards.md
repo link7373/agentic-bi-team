@@ -1,8 +1,6 @@
 # Dashboard Standards
 
-> **Created by Colin Beck**
-> LinkedIn: https://www.linkedin.com/in/beckcolin/
-> GitHub: https://github.com/link7373
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/
 
 
 > Visual and structural rules for every dashboard the team ships, regardless of tool ({{BI_TOOL}}). Goal: any two team dashboards feel like siblings, and a new viewer gets the headline in five seconds.
@@ -69,3 +67,73 @@
 - Every dashboard has: SPEC.md, reconciliation queries in `checks/`, a screenshot, and an inventory row in `dashboards/README.md`.
 - Review for retirement every {{DASHBOARD_REVIEW_CADENCE e.g. "quarter"}} — unused dashboards get archived, not abandoned. **Beware the dead-end dashboard:** a KPI that has hit target every period for months is no longer informative — rotate it out and track usage. A good dashboard answers one question and raises the next.
 - **Functional before beautiful:** analytical clarity is the foundation; decoration that doesn't encode data (and "interesting" chart types chosen to avoid bar charts) gets cut.
+
+## Tool specifics
+
+> Everything above applies to every tool and is not negotiable per-tool. This section is
+> only about the mechanics of getting there in each one. Read the subsection for
+> `{{BI_TOOL}}` and ignore the rest.
+
+### Tableau
+
+- **Extracts over live connections** for anything a human waits on. A live connection to
+  a warehouse means every filter click is a query and a cost; an extract refreshed on the
+  data's actual cadence hits the load target and stops surprise bills. Live is right only
+  when sub-hourly freshness genuinely changes a decision.
+- **Model in the warehouse, not in the workbook.** Calculated fields are for presentation
+  logic (formatting, a ratio of two existing measures), not for business definitions.
+  A metric defined in a calculated field is invisible to every other workbook and to the
+  catalog, which is exactly how two dashboards start disagreeing. If a calculation is
+  reused, it belongs in a mart.
+- **Level-of-detail expressions are powerful and easy to get wrong.** `FIXED` ignores the
+  view's filters unless they're context filters — the classic Tableau bug is a total that
+  doesn't respond to the dashboard's own filter. Reconcile any LOD-based number against
+  a SQL query before shipping, and say in the SPEC which filters it deliberately ignores.
+- **Actions over navigation.** Dashboard actions (filter, highlight, go-to-sheet) keep
+  one dashboard answering one question with a drill path, instead of five near-duplicate
+  dashboards.
+- **Publishing:** the team produces the `.twb`/`.twbx` and the setup steps; a human does
+  the Server/Cloud publish and sets the extract refresh schedule. Record the schedule in
+  `dashboards/README.md` — an extract nobody refreshes is a dashboard that is quietly
+  wrong.
+- **Colour:** define the palette once in a workbook theme rather than per-worksheet, so
+  the semantic colours in this file's Colour section stay consistent across sheets.
+
+### Looker / LookML
+
+- **LookML is the semantic layer, so the catalog maps to it directly.** A measure in a
+  view file is the natural home for a metric definition — one place, reused by every
+  Explore and Look. This is the closest any tool here comes to enforcing "computed once",
+  so use it: the LookML measure name should match `knowledge/metrics-catalog.md`
+  character for character, and its `description` should be the catalog's plain-English
+  definition.
+- **Model in views, present in Explores.** Business logic lives in view files; Explores
+  are curated entry points for a specific audience and question. An Explore exposing
+  every field of every joined view is not self-service, it's a maze.
+- **Join carefully and declare the relationship.** A `many_to_one` mis-declared as
+  `one_to_one` silently fans out rows and inflates every sum downstream. Symmetric
+  aggregates cover a lot of this, but not everything — reconcile totals against SQL.
+- **Persistent derived tables** are the mart layer when you can't write to the warehouse.
+  Prefer a real mart built by `analytics-engineer`; a PDT is the fallback, and it needs
+  the same grain declaration and rebuild schedule as any other table.
+- **Dashboards are the last step, not the first.** Most Looker questions should be
+  answered in an Explore by the business itself; a dashboard is for the recurring view.
+  If the answer is "let me build you a dashboard" to every question, the Explores aren't
+  usable.
+- **Publishing:** the team produces LookML (and dashboard LookML where useful); a human
+  merges it through the Looker Git workflow. Development-mode changes that never get
+  deployed are the most common way work gets lost here.
+
+### Power BI
+
+See `standards/powerbi-standards.md` for the tool mechanics, and `/powerbi` for building
+the project as code. Power BI is the one tool where the team builds and validates the
+real artifact rather than producing an import — because PBIP is plain text.
+
+### No BI tool
+
+Self-contained HTML with inline CSS and no external dependencies, written to
+`dashboards/<name>/`. Every rule above still applies: the five-second test, the chart
+selection table, semantic colour, bars from zero. A single file that opens in a browser
+and can be emailed is a genuinely good answer for a small team, and it version-controls
+better than any of the alternatives.

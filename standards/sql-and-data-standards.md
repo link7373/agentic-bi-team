@@ -1,8 +1,6 @@
 # SQL & Data Standards
 
-> **Created by Colin Beck**
-> LinkedIn: https://www.linkedin.com/in/beckcolin/
-> GitHub: https://github.com/link7373
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/
 
 
 > House rules for all SQL, pipelines, and data models. Applies to every agent. For how to *shape* facts, dimensions, grain, and slowly changing dimensions, see the companion `standards/data-modeling-standards.md`.

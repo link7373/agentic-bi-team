@@ -31,6 +31,4 @@ Coordinates `data-engineer` (ingestion, raw→staging) and `analytics-engineer` 
 
 ---
 
-> **Created by Colin Beck**
-> LinkedIn: https://www.linkedin.com/in/beckcolin/
-> GitHub: https://github.com/link7373
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/

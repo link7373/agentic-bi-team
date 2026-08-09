@@ -1,8 +1,6 @@
 # Pipelines Inventory
 
-> **Created by Colin Beck**
-> LinkedIn: https://www.linkedin.com/in/beckcolin/
-> GitHub: https://github.com/link7373
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/
 
 
 > Every ETL/ELT pipeline and summary-table build the team ships. Owned by `data-engineer`

@@ -1,8 +1,6 @@
 # Data Sources
 
-> **Created by Colin Beck**
-> LinkedIn: https://www.linkedin.com/in/beckcolin/
-> GitHub: https://github.com/link7373
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/
 
 
 > The team's map of where data lives, how to reach it, and what to watch out for. Filled by `/setup-team` (with live connection tests); updated by data-engineer and analytics-engineer whenever tables are added or quirks discovered. **Never guess a table or column name — check here or introspect.**
@@ -13,7 +11,7 @@
 
 | Source | Type | How to connect (exact command/tool) | Status | Contains |
 |---|---|---|---|---|
-| {{SOURCE_1 e.g. "Prod replica"}} | {{TYPE e.g. Postgres}} | {{CONNECT e.g. "psql $PROD_REPLICA_URL (read-only)"}} | {{✅ tested / ❌ blocked: reason}} | {{CONTENTS e.g. "users, orders, events"}} |
+| {{SOURCE_1 e.g. "Prod replica"}} | {{TYPE e.g. Postgres}} | {{CONNECT e.g. "psql $PROD_REPLICA_URL (read-only)"}} | {{status — ✅ tested / ❌ blocked: reason}} | {{CONTENTS e.g. "users, orders, events"}} |
 | {{SOURCE_2 e.g. "Warehouse"}} | {{TYPE e.g. BigQuery}} | {{CONNECT e.g. "bq query --use_legacy_sql=false"}} | {{STATUS}} | {{CONTENTS}} |
 | {{SOURCE_3 e.g. "Stripe"}} | SaaS API | {{CONNECT}} | {{STATUS}} | {{CONTENTS}} |
 
@@ -42,7 +40,7 @@
 
 | Table.column | Type | Unit / domain | Meaning | Gotchas |
 |---|---|---|---|---|
-| {{TABLE.COLUMN e.g. "marts.fct_orders.amount_usd"}} | {{TYPE e.g. numeric}} | {{UNIT e.g. "USD, net of refunds"}} | {{MEANING}} | {{GOTCHA e.g. "NULL for comped orders; excludes tax"}} |
+| {{table.column e.g. "marts.fct_orders.amount_usd"}} | {{TYPE e.g. numeric}} | {{UNIT e.g. "USD, net of refunds"}} | {{MEANING}} | {{GOTCHA e.g. "NULL for comped orders; excludes tax"}} |
 
 ## Cross-Source Join Keys
 

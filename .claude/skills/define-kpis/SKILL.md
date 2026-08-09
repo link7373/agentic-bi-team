@@ -32,6 +32,4 @@ Owner: `metrics-steward`. Args may scope it, e.g. `/define-kpis marketing funnel
 
 ---
 
-> **Created by Colin Beck**
-> LinkedIn: https://www.linkedin.com/in/beckcolin/
-> GitHub: https://github.com/link7373
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/

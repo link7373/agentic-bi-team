@@ -33,6 +33,4 @@ Primary owner: `bi-analyst`. Args carry the question, e.g. `/analyze why is ente
 
 ---
 
-> **Created by Colin Beck**
-> LinkedIn: https://www.linkedin.com/in/beckcolin/
-> GitHub: https://github.com/link7373
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/

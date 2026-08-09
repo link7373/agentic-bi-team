@@ -38,7 +38,8 @@ Connection details, schemas, table inventories, data quirks: `knowledge/data-sou
 
 | Agent | Owns | Route to them when |
 |---|---|---|
-| `data-engineer` | ETL/ELT pipelines, ingestion, raw→staging, data quality checks | "Get data X into the warehouse", pipeline broken, new source |
+| `data-engineer` | ETL/ELT pipelines, ingestion, raw→staging, in-pipeline quality gates | "Get data X into the warehouse", pipeline broken, new source |
+| `data-quality-engineer` | Data health: freshness SLAs, volume/schema drift, profiling, reconciliation, data incidents | "Is the data OK?", a number looks impossible, scheduled health sweep, before trusting a stale table |
 | `analytics-engineer` | Summary/aggregate tables, semantic models, transformations from huge datasets | "This query is slow / dataset is huge", reusable marts, metric layer |
 | `bi-analyst` | Ad-hoc analysis, cross-database joins, answering business questions, short reports | "Why did X happen?", "How many customers…?", deep dives |
 | `dashboard-developer` | Tableau / Power BI / Looker dashboards and visual design | New or updated dashboards, viz best practices |
@@ -53,12 +54,17 @@ Connection details, schemas, table inventories, data quirks: `knowledge/data-sou
 - Launch independent agents in parallel when their work doesn't depend on each other.
 - You (the orchestrator) own scoping, sequencing, and final QA. Agents own execution.
 - For small, single-step questions, answer directly without spawning an agent.
+- **When a metric looks wrong, `data-quality-engineer` goes first.** About half of "the number crashed" turns out to be a stale table or a schema change, and every hour of business analysis spent before that check is wasted.
+- Unclear, oversized, or vague incoming requests go through `/triage` before any agent starts work — it's cheaper to classify than to redo.
 
 ## 4. Workflows (skills — also usable as slash commands)
 
 | Skill | Purpose |
 |---|---|
 | `/setup-team` | Onboard the team from START-HERE.md (run once, and after major changes) |
+| `/connect-data` | Connect and verify one data source at a time, with a live test query |
+| `/health-check` | Self-audit: repo lint, placeholders, metric catalog, live connections, knowledge staleness |
+| `/triage` | Classify, size, route, and log an incoming request |
 | `/build-pipeline` | Design & build an ETL pipeline or summary table |
 | `/analyze` | Full analysis workflow for a business problem (incl. cross-DB joins) |
 | `/scorecard weekly\|monthly` | Generate the periodic performance scorecard |
@@ -70,6 +76,7 @@ Connection details, schemas, table inventories, data quirks: `knowledge/data-sou
 | `/experiment` | Design or read out an A/B test (power analysis, pre-registered metric, SRM check, effect size + CI) |
 | `/make-deliverable` | Produce slides / doc / spreadsheet from analysis results |
 | `/research-domain` | Learn product, market, and industry trends; update knowledge base |
+| `/upgrade` | Pull framework changes from a newer release without touching your filled-in knowledge base |
 
 ## 5. Operating Principles (the whole team follows these)
 
@@ -90,8 +97,11 @@ Connection details, schemas, table inventories, data quirks: `knowledge/data-sou
 |---|---|---|
 | Weekly ({{WEEKLY_SCORECARD_DAY e.g. Monday}}) | `/scorecard weekly` → send to {{WEEKLY_AUDIENCE}} | performance-monitor |
 | Monthly ({{MONTHLY_SCORECARD_DAY e.g. 1st business day}}) | `/scorecard monthly` + narrative | performance-monitor + insights-communicator |
+| Weekly (same run as the scorecard) | `/health-check` → data freshness, connections, repo integrity | data-quality-engineer |
 | {{OTHER_CADENCE e.g. "Quarterly board pack"}} | {{OTHER_CADENCE_DETAIL}} | insights-communicator |
 | Ad hoc | `/research-domain` when industry/product news warrants | bi-analyst |
+
+These run unattended via `scheduling/` (GitHub Action, cron, or Windows Task Scheduler) — see `scheduling/SCHEDULING.md`. A cadence nobody scheduled is a cadence that stops after three weeks.
 
 ## 7. Repo Conventions
 
@@ -102,6 +112,8 @@ Connection details, schemas, table inventories, data quirks: `knowledge/data-sou
 - `experiments/YYYY-MM-DD-short-slug/` — A/B test `DESIGN.md` and `RESULTS.md`.
 - `scorecards/YYYY/` — generated scorecards, named `weekly-YYYY-WW.md` / `monthly-YYYY-MM.md`.
 - `deliverables/` — generated decks, docs, spreadsheets.
+- `scripts/` — the team's own stdlib tooling: `lint_repo.py`, `check_placeholders.py`, `check_metrics.py`, `test_connection.py`, `setup_backup.py`. Run them rather than re-deriving what they check.
+- `scheduling/` — unattended-run assets. `demo/` — the self-contained SQLite demo warehouse.
 - Each working directory carries a `README.md` inventory (`pipelines/`, `dashboards/`, `experiments/`); the reproducible layer (queries, write-ups, specs) is committed, bulk data and rendered blobs are gitignored (see `.gitignore`).
 - Standards in `standards/` apply to everything. Read the relevant one before producing that artifact type: `sql-and-data-standards.md` and `data-modeling-standards.md` (pipelines, marts, facts/dimensions/grain/SCD), `reporting-standards.md` (findings, decks, docs), `dashboard-standards.md` (dashboards). When {{BI_TOOL}} is Power BI, `powerbi-standards.md` adds the tool mechanics on top of `dashboard-standards.md` — it does not replace it.
 

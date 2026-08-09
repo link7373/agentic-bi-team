@@ -1,5 +1,7 @@
 # DAX — thin measures over a clean model
 
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/
+
 > The team's position: **DAX is a presentation layer, not a transformation layer.**
 > Complexity belongs upstream in a mart where it is testable, reusable, and visible
 > in `analyses/`. This is `CLAUDE.md` principle 7 applied to Power BI.

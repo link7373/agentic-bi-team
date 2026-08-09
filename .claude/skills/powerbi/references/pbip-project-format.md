@@ -1,5 +1,7 @@
 # PBIP Project Format — the shape of the thing
 
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/
+
 > Source of truth: [Microsoft — Power BI Desktop projects](https://learn.microsoft.com/power-bi/developer/projects/projects-overview).
 > Preview feature; verify against the docs when something looks off.
 

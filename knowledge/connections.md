@@ -1,8 +1,6 @@
 # Connecting Your Data — Setup Cookbook
 
-> **Created by Colin Beck**
-> LinkedIn: https://www.linkedin.com/in/beckcolin/
-> GitHub: https://github.com/link7373
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/
 
 
 > The make-or-break step. Everything the team does downstream assumes Claude Code can reach

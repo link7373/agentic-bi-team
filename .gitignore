@@ -45,6 +45,7 @@
 .env
 .env.*
 *.env
+!.env.example
 secrets.*
 *.key
 *.pem
@@ -66,3 +67,7 @@ venv/
 .DS_Store
 Thumbs.db
 .gstack/
+
+# Pre-setup snapshots written by scripts/setup_backup.py. Local safety net for
+# undoing /setup-team — restore with `--restore <timestamp>`, never committed.
+.setup-backup/

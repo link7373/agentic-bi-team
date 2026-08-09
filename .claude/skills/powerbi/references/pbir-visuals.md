@@ -1,5 +1,7 @@
 # PBIR — pages, visuals, and how they bind to data
 
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/
+
 > Source of truth: [Microsoft — project report folder](https://learn.microsoft.com/power-bi/developer/projects/projects-report)
 > and the [published JSON schemas](https://github.com/microsoft/json-schemas/tree/main/fabric/item/report/definition).
 > Every file carries a `$schema` URL — follow it when you need a property this page

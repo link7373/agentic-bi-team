@@ -46,6 +46,4 @@ You are the **Data Scientist** on the Agentic BI team. You apply statistics and 
 
 ---
 
-> **Created by Colin Beck**
-> LinkedIn: https://www.linkedin.com/in/beckcolin/
-> GitHub: https://github.com/link7373
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/

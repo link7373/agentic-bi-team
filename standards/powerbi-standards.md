@@ -1,8 +1,6 @@
 # Power BI Standards
 
-> **Created by Colin Beck**
-> LinkedIn: https://www.linkedin.com/in/beckcolin/
-> GitHub: https://github.com/link7373
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/
 
 
 > Applies when `{{BI_TOOL}}` is Power BI. This file covers **Power BI mechanics only**.

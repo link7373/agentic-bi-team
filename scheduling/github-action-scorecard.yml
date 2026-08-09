@@ -1,0 +1,91 @@
+# Agentic BI Team — scheduled scorecard + health check.
+#
+# Copy to .github/workflows/scorecard.yml to enable, then set ANTHROPIC_API_KEY
+# under Settings -> Secrets and variables -> Actions.
+#
+# Read scheduling/SCHEDULING.md before enabling. The short version: this runs an
+# agent with no human to approve anything, using whatever credentials you put in
+# repo secrets. Give it a READ-ONLY warehouse credential.
+
+name: BI Scorecard
+
+on:
+  schedule:
+    # GitHub cron is UTC and does not observe daylight saving. Pick an hour you
+    # can live with year-round.
+    - cron: "0 13 * * 1"   # weekly  — Mondays 13:00 UTC
+    - cron: "30 13 1 * *"  # monthly — 1st of the month, 13:30 UTC
+  workflow_dispatch:
+    inputs:
+      period:
+        description: "Scorecard period"
+        required: true
+        default: weekly
+        type: choice
+        options: [weekly, monthly]
+
+# Needed to commit the generated scorecard back to the repo.
+permissions:
+  contents: write
+
+concurrency:
+  group: bi-scorecard
+  cancel-in-progress: false
+
+jobs:
+  scorecard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Decide the period
+        id: period
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "value=${{ inputs.period }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "30 13 1 * *" ]; then
+            echo "value=monthly" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=weekly" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Generate the scorecard
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Add the warehouse credentials this repo's data-sources.md expects.
+          # Use a read-only role. Example:
+          # PROD_REPLICA_URL: ${{ secrets.PROD_REPLICA_URL }}
+        run: |
+          claude -p "/scorecard ${{ steps.period.outputs.value }}" \
+            --permission-mode acceptEdits
+
+      - name: Health check
+        # Runs after the scorecard so freshness problems it hit are explained,
+        # and still runs if the scorecard failed — that log is worth having.
+        if: always()
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          claude -p "/health-check" --permission-mode acceptEdits
+
+      - name: Commit the results
+        if: always()
+        run: |
+          git config user.name "agentic-bi-team[bot]"
+          git config user.email "agentic-bi-team@users.noreply.github.com"
+          git add scorecards/ knowledge/ analyses/ 2>/dev/null || true
+          if git diff --staged --quiet; then
+            echo "Nothing generated — check the logs above; this usually means "
+            echo "the run failed before writing, not that there was no news."
+            exit 0
+          fi
+          git commit -m "chore: ${{ steps.period.outputs.value }} scorecard $(date -u +%Y-%m-%d)"
+          git push

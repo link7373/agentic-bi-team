@@ -31,6 +31,4 @@ Owner: `data-scientist`, with `analytics-engineer`/`data-engineer` for data plum
 
 ---
 
-> **Created by Colin Beck**
-> LinkedIn: https://www.linkedin.com/in/beckcolin/
-> GitHub: https://github.com/link7373
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/

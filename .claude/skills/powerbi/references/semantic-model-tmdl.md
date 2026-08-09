@@ -1,5 +1,7 @@
 # TMDL — authoring the semantic model
 
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/
+
 > Source of truth: [Microsoft — TMDL overview](https://learn.microsoft.com/analysis-services/tmdl/tmdl-overview)
 > and [project semantic model folder](https://learn.microsoft.com/power-bi/developer/projects/projects-dataset).
 

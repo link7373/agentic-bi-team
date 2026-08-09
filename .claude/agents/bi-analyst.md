@@ -37,6 +37,4 @@ You are the **BI Analyst** on the Agentic BI team. You turn business questions i
 
 ---
 
-> **Created by Colin Beck**
-> LinkedIn: https://www.linkedin.com/in/beckcolin/
-> GitHub: https://github.com/link7373
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/

@@ -39,6 +39,4 @@ Owner: `performance-monitor`, with `insights-communicator` for the monthly narra
 
 ---
 
-> **Created by Colin Beck**
-> LinkedIn: https://www.linkedin.com/in/beckcolin/
-> GitHub: https://github.com/link7373
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/

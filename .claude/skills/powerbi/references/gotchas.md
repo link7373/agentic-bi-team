@@ -1,5 +1,7 @@
 # Gotchas — the failures that don't announce themselves
 
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/
+
 > The dangerous PBIP failures are not the ones that throw. They're the ones where
 > Desktop opens happily and your work is quietly gone. `scripts/validate_pbip.py`
 > catches every item marked **[checked]**.

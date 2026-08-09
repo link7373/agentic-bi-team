@@ -13,8 +13,9 @@ statistical framework and persisted across sessions.
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 ![Built for](https://img.shields.io/badge/Built%20for-Claude%20Code-8A2BE2.svg)
-![Agents](https://img.shields.io/badge/Agents-9-2563EB.svg)
-![Skills](https://img.shields.io/badge/Skills-12-2563EB.svg)
+![Agents](https://img.shields.io/badge/Agents-10-2563EB.svg)
+![Skills](https://img.shields.io/badge/Skills-16-2563EB.svg)
+![Version](https://img.shields.io/badge/Version-1.0.0-2563EB.svg)
 
 Everything is plain Markdown. No app, no SaaS, no lock-in — the "team" is a set of instruction files that
 Claude Code reads.
@@ -26,7 +27,7 @@ Claude Code reads.
 A real BI team is a group of specialists working a shared operating rhythm: data engineers, analytics
 engineers, analysts, dashboard developers, data scientists, a metrics steward, a performance monitor, and
 someone who turns analysis into something an executive will act on. This kit recreates that team as
-**9 role-based agents** coordinated by a **Head of BI** orchestrator, driven by **12 plain-English
+**10 role-based agents** coordinated by a **Head of BI** orchestrator, driven by **16 plain-English
 workflows**, and anchored by a **persistent knowledge base** plus a standing **statistical-reasoning
 framework** so the numbers are trustworthy and the context survives across sessions.
 
@@ -46,8 +47,8 @@ flowchart TD
 A(["👤 You · plain English"]) -->|"fill in once"| B["📋 START-HERE.md — the charter"]
 B -->|"/setup-team"| M
 A -->|"requests"| M{{"📊 Head of BI — orchestrator (CLAUDE.md)"}}
-M --> SK[/"12 Skills · workflows"/]
-SK --> AG["👥 9 Specialist Agents — data · analysis · delivery"]
+M --> SK[/"16 Skills · workflows"/]
+SK --> AG["👥 10 Specialist Agents — data · analysis · delivery"]
 AG --> KN[("🧠 knowledge/ — source of truth")]
 AG --> ST[("📐 standards/ — house style")]
 AG --> AR[("🧮 analytics.md — stats & viz framework")]
@@ -64,10 +65,11 @@ class KN,ST,AR store;
 | Part | What it is |
 |------|------------|
 | 📊 **Orchestrator** (`CLAUDE.md`) | The Head of BI — routes requests, sequences multi-step work, runs the cadence, owns final QA. Auto-loaded every session. |
-| 👥 **Agents** (`.claude/agents/`) | 9 specialists, each scoped to a role with deep, role-specific instructions. |
-| ⚙️ **Skills** (`.claude/skills/`) | 11 slash-command workflows with step-by-step procedures. |
-| 🧠 **Knowledge** (`knowledge/`) | Persistent memory — business context, data sources, the metrics catalog, stakeholders, decisions. The **source of truth**. |
+| 👥 **Agents** (`.claude/agents/`) | 10 specialists, each scoped to a role with deep, role-specific instructions. |
+| ⚙️ **Skills** (`.claude/skills/`) | 16 slash-command workflows with step-by-step procedures. |
+| 🧠 **Knowledge** (`knowledge/`) | Persistent memory — business context, data sources, the metrics catalog, stakeholders, decisions, incidents, requests. The **source of truth**. |
 | 📐🧮 **Standards & framework** | House style (`standards/`) and the standing statistical-reasoning + visualization reference (`analytics.md`). |
+| 🛡️ **Tooling & rails** (`scripts/`, `.claude/settings.json`) | Standard-library checks the team runs on itself, a least-privilege permission set, and a hook that blocks destructive SQL. |
 
 ## The BI job lifecycle
 
@@ -106,7 +108,7 @@ MD -. "next cycle" .-> DK
    claude
    ```
 
-   Run `/agents` inside Claude Code to confirm the 8 team members are visible.
+   Run `/agents` inside Claude Code to confirm the team is visible.
 
 2. **Fill out the charter** — open [`START-HERE.md`](START-HERE.md) and answer in plain English. Bullet
    points and brain dumps are fine; no technical vocabulary needed. Leave anything you don't know blank.
@@ -119,22 +121,40 @@ MD -. "next cycle" .-> DK
    /setup-team
    ```
 
-   This reads your charter, asks one batched round of clarifying questions, **tests every data connection
-   you named** (recording exactly what works and what's blocked), discovers your schemas, replaces every
-   `{{placeholder}}` across all files, seeds a draft KPI list for your business model, runs a smoke-test
-   that the team is live, and reports back with a suggested first task.
+   This snapshots every file it's about to touch (so the whole thing is undoable), reads your charter,
+   asks one batched round of clarifying questions, shows you the placeholder mapping **before** writing
+   anything, **tests every data connection you named** (recording exactly what works and what's blocked),
+   discovers your schemas, replaces every `{{placeholder}}`, seeds a draft KPI list for your business
+   model, runs `/health-check` to prove the team is live, and reports back with a suggested first task.
 
 4. **Just ask.** Talk to the Head of BI in business English, or invoke a workflow directly. From here the
    team is live.
 
-## The team — 9 agents
+### Or: see it work in ten minutes, with no warehouse
+
+No data connected yet, or just evaluating? Run `/setup-team` and choose **demo mode**. It builds a
+fictional B2B SaaS warehouse in SQLite — 50,000 rows, two years, standard library only, no installs —
+and configures the whole team against it:
+
+```bash
+python demo/generate_demo_data.py
+```
+
+Then try `/scorecard weekly`, and `/investigate-metric churn`. **Three findings are deliberately planted
+in the data**: a churn spike concentrated in one segment that the blended number hides, two data-quality
+defects (a nine-day pipeline outage and a month of duplicate invoices), and seasonality that makes a
+month-over-month comparison lie. Seeing whether the team finds them — and whether it says which one is a
+data problem *before* treating it as a business result — tells you more than any feature list.
+
+## The team — 10 agents
 
 **Data foundation**
 
 | Agent | Owns |
 |-------|------|
-| `data-engineer` | ETL/ELT pipelines, ingestion from source systems, raw→staging, data-quality gates |
+| `data-engineer` | ETL/ELT pipelines, ingestion from source systems, raw→staging, in-pipeline quality gates |
 | `analytics-engineer` | Summary/aggregate tables from huge datasets, semantic models, marts, the metric layer |
+| `data-quality-engineer` | Data health: freshness SLAs, volume & schema drift, profiling, reconciliation, data incidents |
 
 **Analysis & science**
 
@@ -158,11 +178,20 @@ MD -. "next cycle" .-> DK
 | `insights-communicator` | Exec summaries, decks, docs, workbooks, data storytelling — the last mile |
 | `powerbi-validator` | PBIP structure, TMDL/PBIR schemas, naming, field references — Power BI teams only |
 
-## The workflows — 12 skills
+**Why `data-quality-engineer` is its own role, not a bullet in `data-engineer`.** When revenue drops 40%,
+`performance-monitor` asks "what happened to sales?" and `data-quality-engineer` asks "did the invoice
+pipeline run?" — and it answers first, because roughly half of all "the metric crashed" alerts turn out to
+be a stale table or a schema change. Every hour of business analysis spent before that check is wasted.
+It's a different question, a different method, and a different first move.
+
+## The workflows — 16 skills
 
 | Skill | What it does | Lead agent |
 |-------|--------------|------------|
 | `/setup-team` | Initialize the team from the charter; test connections; seed memory | (orchestrator) |
+| `/connect-data` | Connect one source and **prove** it works with a live query | (orchestrator) |
+| `/health-check` | Self-audit: repo lint, placeholders, metric catalog, connections, staleness, drift | data-quality-engineer |
+| `/triage` | Classify, size, route, and log an incoming request — the front door | (orchestrator) |
 | `/research-domain` | Learn the product, market, and industry; write dated briefings & benchmarks | bi-analyst |
 | `/define-kpis` | Metric tree + rigorous catalog definitions, targets, thresholds, counter-metrics | metrics-steward |
 | `/build-pipeline` | Design & build an ETL pipeline or summary table, with quality gates | data-engineer + analytics-engineer |
@@ -174,6 +203,7 @@ MD -. "next cycle" .-> DK
 | `/build-dashboard` | Spec → data layer → build → number-by-number validation, in the team's BI tool | dashboard-developer + analytics-engineer |
 | `/powerbi` | Power BI only: PBIP project as code — TMDL model, PBIR report, theme, validation gate | dashboard-developer + powerbi-validator |
 | `/make-deliverable` | Pyramid-structured deck / doc / workbook with every figure source-mapped | insights-communicator |
+| `/upgrade` | Pull a newer release's framework changes without touching your knowledge base | (orchestrator) |
 
 ## Power BI: dashboards as code
 
@@ -221,6 +251,14 @@ instructed to **read before a task and write back after**:
   unless it's defined here and computed exactly as defined
 - **Intelligence:** `industry-notes.md` (dated research briefings & benchmarks)
 - **Governance:** `decision-log.md` (methodological rulings & proactively-spotted observations)
+- **Operations:** `data-quality-log.md` (data incidents and the checks that came out of them),
+  `incident-runbook.md` (what to do when the data is wrong, decided before you need it),
+  `request-log.md` (what the team was asked, what it delivered, and what was never used)
+
+The metrics catalog is both readable and checkable: each entry carries a fenced YAML block (name,
+definition, grain, owner, SQL), so `scripts/check_metrics.py` can prove that every number on a scorecard
+has a definition behind it and that no metric is defined twice. "Computed in exactly one place" stops
+being a rule everyone agrees with and starts being one that fails CI.
 
 Commit the repo regularly — the git history is the team's institutional memory. The `.gitignore` keeps the
 reproducible layer (queries, write-ups, specs, scripts) in version control and excludes bulk data and
@@ -261,17 +299,23 @@ House style lives in `standards/`, and the relevant file is read before producin
 **The placeholder system.** Every file ships with `{{PLACEHOLDERS}}` marking where your configuration goes
 (`{{COMPANY_NAME}}`, `{{BI_TOOL}}`, `{{DATA_PRIVACY_RULES}}`, scorecard thresholds, brand colours…).
 `/setup-team` fills them from your charter; you can also hand-edit any file at any time (hand edits are
-equally authoritative). To find anything still unconfigured:
+equally authoritative). Two forms, and the distinction is enforced: `{{UPPER_SNAKE}}` is filled by setup
+and must be gone afterwards, while `{{lowercase prose}}` is a blank you fill per entry when you write a
+log entry or a metric definition. To see the whole inventory, or check nothing was missed:
 
 ```bash
-grep -rn "{{" --include="*.md" .
+python scripts/check_placeholders.py --list
 ```
 
 **Connecting your data.** The team reads connection details from `knowledge/data-sources.md`. Three
 patterns, in order of preference — an **MCP server** for your warehouse, a **CLI client** with credentials
-in environment variables, or **files** (CSV/Parquet) analysed locally with DuckDB/pandas. `/setup-team`
-verifies whichever you have with live test queries; nothing is recorded as "working" untested. The full,
-non-technical runbook (including the no-secrets-in-git rule) is [`knowledge/connections.md`](knowledge/connections.md).
+in environment variables, or **files** (CSV/Parquet) analysed locally. Run
+[`/connect-data`](.claude/skills/connect-data/SKILL.md) and it walks one source at a time, tests it with a
+live query via `scripts/test_connection.py`, and records **only what actually returned rows** — an
+untested ✅ is worse than an honest ❌, because it produces agents that plan confidently against data they
+cannot reach. Credential variable names live in [`.env.example`](.env.example); the values never enter an
+agent's context. The full non-technical runbook is
+[`knowledge/connections.md`](knowledge/connections.md).
 
 **Configuring the BI tool.** Set your tool in the charter (or directly in `CLAUDE.md` and
 `dashboard-developer.md`). The dashboard developer carries tool-specific rules for **Tableau**, **Power
@@ -286,9 +330,32 @@ Desktop *doesn't* report — most importantly the naming rule that makes a page 
 `powerbi-validator` agent gates anything stakeholder-facing, and dashboards get committed to git like
 any other reproducible work product. None of this loads for teams on another tool.
 
-**Safety rails.** Two placeholders in `CLAUDE.md` §8 govern autonomy: a **never-without-asking** list
-(destructive or outward-facing actions always confirm unless pre-authorised) and a **pre-authorised** list.
-Privacy rules propagate into querying, dashboards, and exports, including minimum aggregation sizes.
+**Safety rails.** Three layers, because a prompt is guidance and not a control:
+
+1. **Prompt.** `CLAUDE.md` §8 carries a **never-without-asking** list and a **pre-authorised** list.
+   Privacy rules propagate into querying, dashboards, and exports, including minimum aggregation sizes.
+2. **Permissions.** [`.claude/settings.json`](.claude/settings.json) allows read-only work and the team's
+   own scripts, prompts for every database client, and flatly denies reading `.env`, `*.pem`, and other
+   credential files — a secret an agent never reads cannot end up in a transcript or a deliverable.
+3. **A hook.** `scripts/hooks/block_destructive_sql.py` runs before every shell command and blocks
+   `DROP`, `TRUNCATE`, unqualified `DELETE`/`UPDATE`, and `GRANT`/`REVOKE` from reaching a database
+   client, with an explanation and a pointer to the idempotent rebuild patterns. Overriding it means
+   typing `AGENTIC_BI_ALLOW_DESTRUCTIVE=1`, which is the point — it turns an accident into a decision.
+
+Each is explained line by line in [`docs/settings.md`](docs/settings.md). The strongest control isn't in
+any of them: point the team at a **read-only role or a read replica** and the whole problem becomes an
+error message from the warehouse.
+
+**The team checks itself.** Five standard-library scripts, no installs, all wired into CI and into
+[`/health-check`](.claude/skills/health-check/SKILL.md):
+
+| Script | Catches |
+|---|---|
+| `lint_repo.py` | agent/skill counts disagreeing, an agent missing from the routing table (and therefore never routed work), broken cross-references, bad frontmatter |
+| `check_placeholders.py` | unfilled configuration an agent would read as fact; malformed placeholders setup would skip |
+| `check_metrics.py` | a scorecard KPI with no definition behind it, a metric defined twice, a definition missing its formula |
+| `test_connection.py` | a connection recorded as working that isn't |
+| `setup_backup.py` | — snapshots and restores everything `/setup-team` writes |
 
 **Tuning behaviour:**
 
@@ -302,14 +369,24 @@ Privacy rules propagate into querying, dashboards, and exports, including minimu
 | Chart / colour / layout rules | `standards/dashboard-standards.md` |
 | Power BI model, DAX, PBIP rules | `standards/powerbi-standards.md` |
 | Report structure, tone, branding | `standards/reporting-standards.md` |
-| Who gets what, in which format | `knowledge/stakeholders.md` |
+| Who gets what, in which format, and how fast | `knowledge/stakeholders.md` |
+| Permissions and the destructive-SQL hook | `.claude/settings.json` (see `docs/settings.md`) |
 
 ### Running on a schedule
 
-The scorecards and monitoring are designed for recurring runs:
-- **Headless CLI:** `claude -p "/scorecard weekly"` from cron or any scheduler.
-- **Claude Code web / GitHub Action:** start a session on this repo on a schedule and ask for the scorecard.
-- **Manual:** just run `/scorecard weekly` each Monday — one command either way.
+A weekly scorecard that depends on somebody remembering to ask for it lasts about three weeks. The
+[`scheduling/`](scheduling/SCHEDULING.md) directory ships working assets for all three routes:
+
+- **GitHub Actions** (recommended) — `scheduling/github-action-scorecard.yml`, copy to
+  `.github/workflows/`, add an API key, done. Commits each period's scorecard back to the repo, so the
+  git history becomes the trend record.
+- **cron** — `scheduling/run-scorecard.sh`, which sources `.env` because cron won't read your shell
+  profile.
+- **Windows Task Scheduler** — `scheduling/run-scorecard.ps1`, with the registration command in
+  `SCHEDULING.md`.
+
+All three run `/scorecard` then `/health-check`. Give the scheduled run a **read-only** credential: it
+executes with nobody there to approve a prompt.
 
 ## Repository layout
 
@@ -319,35 +396,46 @@ agentic-bi-team/
 ├─ CLAUDE.md                # Head of BI orchestrator (routing, principles, escalation)
 ├─ README.md
 ├─ analytics.md             # statistical-reasoning & visualization framework
-├─ LICENSE · .gitignore · .gitattributes
+├─ VERSION · CHANGELOG.md · CONTRIBUTING.md · LICENSE
+├─ .gitignore · .gitattributes · .env.example
 ├─ .claude/
-│  ├─ agents/               # 9 specialist sub-agents
-│  └─ skills/               # 12 slash-command workflows
+│  ├─ agents/               # 10 specialist sub-agents
+│  ├─ settings.json         # permissions + the destructive-SQL hook
+│  └─ skills/               # 16 slash-command workflows
 │     └─ powerbi/           # Power BI only — loaded on demand
 │        ├─ references/     #   PBIP · PBIR · TMDL · DAX · theme · gotchas
 │        ├─ scripts/        #   validate_pbip.py (stdlib, no installs)
 │        └─ tests/          #   regression suite: 1 clean + 16 defect fixtures
+├─ .github/workflows/       # CI: repo lint + validator regression suite + demo build
+├─ scripts/                 # the team's own checks (stdlib): lint_repo · check_placeholders
+│  └─ hooks/                #   check_metrics · test_connection · setup_backup
+├─ scheduling/              # GitHub Action · cron · Task Scheduler + SCHEDULING.md
+├─ demo/                    # generate_demo_data.py + DEMO-CHARTER.md (SQLite, no installs)
+├─ docs/settings.md         # what every permission and the hook actually do
 ├─ knowledge/               # persistent memory — source of truth
 │  ├─ business-context.md · data-sources.md · connections.md
-│  ├─ metrics-catalog.md · stakeholders.md
-│  ├─ industry-notes.md · decision-log.md
+│  ├─ metrics-catalog.md · stakeholders.md · decision-log.md
+│  ├─ industry-notes.md · data-quality-log.md
+│  ├─ incident-runbook.md · request-log.md
 ├─ standards/               # sql-and-data · data-modeling · reporting · dashboard · powerbi
-├─ analyses/                # generated: one folder per analysis (queries + FINDINGS.md)
-├─ pipelines/ · dashboards/ · experiments/   # generated: each with a README inventory
-├─ models/ · scorecards/ · deliverables/     # generated: model cards, scorecards, decks
+├─ analyses/ · pipelines/ · dashboards/ · experiments/
+├─ models/ · scorecards/ · deliverables/     # each with a README inventory
 ```
 
-Working directories (`analyses/`, `pipelines/`, `dashboards/`, `models/`, `experiments/`, `scorecards/`,
-`deliverables/`) fill in as the team operates; `pipelines/`, `dashboards/`, and `experiments/` ship with a
-`README.md` inventory so the "check for existing work" step always has something to read.
+The seven working directories fill in as the team operates, and each ships with a `README.md` inventory —
+so "check for existing work" always has something to read, and a question already answered doesn't get
+answered twice.
 
 ## Extending the team
 
-- **Add a team member:** create `.claude/agents/<name>.md` (frontmatter `name`, `description` + role
-  instructions) and add a row to the routing table in `CLAUDE.md` §3. Useful additions: a financial
-  analyst, a data-governance officer.
+- **Add a team member:** create `.claude/agents/<name>.md` (frontmatter `name`, `description`, optionally
+  `tools:`/`model:` for a scoped role) and add a row to the routing table in `CLAUDE.md` §3. Useful
+  additions: a financial analyst, a revenue-operations analyst.
 - **Add a workflow:** create `.claude/skills/<name>/SKILL.md` (frontmatter + numbered procedure) and list
   it in `CLAUDE.md` §4.
+- Run `python scripts/lint_repo.py` after either — it fails if the new agent or skill isn't in the routing
+  table, which is the difference between adding a specialist and adding a file nobody calls. Conventions
+  are in [`CONTRIBUTING.md`](CONTRIBUTING.md).
 - **Industry packs:** the metrics-steward and `/define-kpis` adapt to your business model from the charter;
   for deep vertical needs, extend `knowledge/metrics-catalog.md` and `industry-notes.md` directly.
 
@@ -366,8 +454,12 @@ Working directories (`analyses/`, `pipelines/`, `dashboards/`, `models/`, `exper
 
 | Symptom | Fix |
 |---|---|
-| Agents/skills don't appear | `.claude/` must be at the root of the folder Claude Code opened. Check with `/agents`. |
-| Team asks for context it should know | Placeholders left unfilled — run the `{{` grep above, or re-run `/setup-team`. |
+| Agents/skills don't appear | `.claude/` must be at the root of the folder Claude Code opened. Check with `/agents`, then `python scripts/lint_repo.py`. |
+| A new agent never gets any work | It's missing from the `CLAUDE.md` §3 routing table — the orchestrator routes from that table only. `lint_repo.py` catches this. |
+| Team asks for context it should know | Placeholders left unfilled — run `python scripts/check_placeholders.py`, or re-run `/setup-team`. |
+| Setup got something wrong | `python scripts/setup_backup.py --list`, then `--restore <id> --yes`. Every run snapshots first. |
+| Something feels stale but you can't say what | `/health-check` — connections, freshness, placeholders, metric catalog, knowledge staleness, inventory drift. |
+| A command got blocked with "BLOCKED by the Agentic BI Team safety hook" | Working as intended: it was destructive SQL. See `docs/settings.md` for the reasoning and the override. |
 | Two reports disagree on a number | A metrics-steward job: say "these two numbers disagree" and it reproduces both, rules, and fixes the deviating artifact. |
 | Data connection broke | Update `knowledge/data-sources.md` (or tell the team — it retests and updates the file). See `connections.md`. |
 | Output style isn't right | Edit the relevant `standards/` file once; every future artifact follows it. |

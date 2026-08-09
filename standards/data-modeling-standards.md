@@ -1,8 +1,6 @@
 # Data Modeling Standards
 
-> **Created by Colin Beck**
-> LinkedIn: https://www.linkedin.com/in/beckcolin/
-> GitHub: https://github.com/link7373
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/
 
 
 > How the team designs warehouse models — dimensional modeling rules for facts, dimensions, and marts. Owned by analytics-engineer; data-engineer applies the staging/SCD mechanics. Read alongside `standards/sql-and-data-standards.md`.
@@ -71,3 +69,44 @@ Before building marts across domains, sketch the **bus matrix**: rows = business
 
 - `agg_*` tables are a **performance layer** built from atomic facts, never a substitute for them. Same conformed dimensions, coarser grain.
 - Document each aggregate's grain and the atomic table it rolls up from; its totals must reconcile to the atomic layer within tolerance.
+
+## Working alongside dbt
+
+If the company already runs dbt (or SQLMesh, or a similar transformation framework),
+**it owns the transform layer and this team works inside it.** Do not build a parallel
+set of marts with hand-written SQL next to a dbt project; two transform layers producing
+similar tables is precisely the situation the metrics catalog exists to prevent, and it
+will produce two numbers for the same thing within a month.
+
+What that means in practice:
+
+- **Read the project before proposing anything.** `dbt_project.yml` for the layer naming
+  and materialisation defaults, `models/**/schema.yml` for what each model means, its
+  declared tests, and its documented columns. The `schema.yml` descriptions are a data
+  dictionary that already exists — reconcile it with `knowledge/data-sources.md` rather
+  than writing a competing one.
+- **New marts are new dbt models**, in the project's own structure and naming, with the
+  tests the project expects (`unique`, `not_null`, `relationships` on the grain key at
+  minimum). A model without a grain test is a model whose grain will silently change.
+- **Lineage is already solved — use it.** `dbt ls --select +my_model` and
+  `dbt ls --select my_model+` answer "what feeds this" and "what breaks if I change it"
+  far better than reading SQL. Run the downstream selector before changing any model, and
+  say in the design what will need rebuilding.
+- **Respect the materialisation strategy.** Whether a model is a view, a table, or
+  incremental is usually a deliberate cost decision the data team already made. Changing
+  it is their call, not an analysis's.
+- **Tests are the quality gate.** Where this repo's standards call for a quality check,
+  express it as a dbt test in the project rather than a separate script, so it runs on
+  every build instead of only when someone remembers. `data-quality-engineer`'s standing
+  checks then cover what dbt tests can't see — freshness against the real world, volume
+  drift, and reconciliation to the source system.
+- **The metrics catalog still wins on definitions.** If dbt has a metrics or semantic
+  layer, `knowledge/metrics-catalog.md` and that layer must agree; where they don't,
+  `metrics-steward` rules and one of them gets corrected. Record the ruling in
+  `knowledge/decision-log.md`. Two semantic layers disagreeing is worse than either one
+  alone.
+
+Where dbt exists, `analytics-engineer` reads `schema.yml` instead of inventing marts, and
+pipeline work routes through the project's own development and review workflow — including
+its pull-request process. An analysis that bypasses that to write a table directly is
+faster once and a liability afterwards.

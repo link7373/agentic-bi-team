@@ -1,5 +1,7 @@
 # Theme JSON — encoding the design standard once
 
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/
+
 > A theme is `standards/dashboard-standards.md` made executable. Every rule you put
 > here applies to every visual, forever, including ones nobody has built yet.
 

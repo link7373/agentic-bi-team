@@ -1,0 +1,68 @@
+name: CI
+
+# The kit is prose plus a handful of stdlib scripts, so nothing here needs a
+# dependency install. Two jobs: does the repo still hang together structurally,
+# and does the Power BI validator still catch the defects it was written for.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    name: Repo lint (structure, counts, links, placeholders)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Structural lint
+        run: python scripts/lint_repo.py
+      - name: Template placeholders intact
+        # The shipped repo must stay unconfigured — this fails if someone
+        # commits a repo they ran /setup-team on.
+        run: python scripts/check_placeholders.py --template-mode
+      - name: Metrics catalog schema
+        run: python scripts/check_metrics.py --template-mode
+
+  powerbi-validator:
+    name: Power BI validator regression suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Build fixtures and assert every defect is caught
+        run: python .claude/skills/powerbi/tests/run_tests.py
+
+  demo:
+    name: Demo dataset generates and queries
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Generate the demo warehouse
+        run: python demo/generate_demo_data.py --quiet
+      - name: Smoke-query it
+        run: |
+          python demo/query_demo.py --tables
+          python demo/query_demo.py "SELECT COUNT(*) AS n FROM fct_subscription_events"
+      - name: The planted findings are still findable
+        # If a change to the generator flattens the demo data, the demo stops
+        # demonstrating anything — and that failure is otherwise invisible.
+        run: |
+          python demo/query_demo.py --csv "
+            SELECT segment,
+                   SUM(CASE WHEN churn_date IS NOT NULL THEN 1 ELSE 0 END) AS churned
+            FROM dim_customer GROUP BY segment"
+          python demo/query_demo.py --csv "
+            SELECT period_month,
+                   COUNT(*) - COUNT(DISTINCT customer_id || period_month) AS duplicates
+            FROM fct_invoices GROUP BY period_month
+            HAVING duplicates > 0"

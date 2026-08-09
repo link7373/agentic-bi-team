@@ -1,8 +1,6 @@
 # Dashboards Inventory
 
-> **Created by Colin Beck**
-> LinkedIn: https://www.linkedin.com/in/beckcolin/
-> GitHub: https://github.com/link7373
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/
 
 
 > Every dashboard the team ships, in any tool (Tableau / Power BI / Looker / file-based).

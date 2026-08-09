@@ -29,6 +29,4 @@ Owner: `insights-communicator`. Args name the source analysis and format, e.g. `
 
 ---
 
-> **Created by Colin Beck**
-> LinkedIn: https://www.linkedin.com/in/beckcolin/
-> GitHub: https://github.com/link7373
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/

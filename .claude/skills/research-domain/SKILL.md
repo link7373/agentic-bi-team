@@ -33,6 +33,4 @@ Owner: `bi-analyst` (research mode). Args scope the topic, e.g. `/research-domai
 
 ---
 
-> **Created by Colin Beck**
-> LinkedIn: https://www.linkedin.com/in/beckcolin/
-> GitHub: https://github.com/link7373
+> Created by Colin Beck — https://www.linkedin.com/in/beckcolin/

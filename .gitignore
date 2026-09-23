@@ -29,10 +29,14 @@
 *.xls
 *.pdf
 *.twbx
-*.twb
 *.pbix
 *.pbit
 *.zip
+
+# Tableau workbooks: a .twb is plain XML and diffs cleanly, so it IS tracked —
+# same principle as PBIP below. Its build.py is the source and the .twb the
+# output, but reviewing what changed in a workbook is the point of the module.
+# The packaged .twbx and the .hyper extract are binaries and stay ignored.
 
 # Power BI Projects (PBIP): the .pbip / .pbir / .tmdl / .json text IS tracked —
 # it's the reproducible layer, same as .sql and .md. Only the binary cache and
@@ -71,3 +75,16 @@ Thumbs.db
 # Pre-setup snapshots written by scripts/setup_backup.py. Local safety net for
 # undoing /setup-team — restore with `--restore <timestamp>`, never committed.
 .setup-backup/
+
+# Tableau runtime schema cache - extracted from a local Tableau install.
+# Proprietary Tableau content; never commit it (see
+# .claude/skills/tableau/scripts/extract_runtime_schema.py).
+.claude/skills/tableau/schemas/.runtime-cache/
+
+# Tableau extracts and packaged workbooks are generated binaries.
+# The .twb, build.py and the SQL are the reproducible layer and ARE tracked.
+*.hyper
+*.twbx
+
+# Hyper API writes a log beside the working directory.
+hyperd.log

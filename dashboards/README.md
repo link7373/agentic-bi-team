@@ -15,6 +15,12 @@ Power BI dashboards are committed as **PBIP projects** — `<Name>.pbip`, `<Name
 deliberately; only binaries and per-user state are gitignored. See `/powerbi` and
 `standards/powerbi-standards.md`.
 
+Tableau dashboards are committed as a **`build.py` plus the generated `.twb`** — the
+script is the source, the workbook is its output, and both diff cleanly as text.
+Extracts (`.hyper`) and packages (`.twbx`) are generated binaries and are gitignored.
+See `/tableau` and `standards/tableau-standards.md`; a worked example lives at
+`.claude/skills/tableau/examples/demo-exec-overview/`.
+
 ## Inventory
 
 | Dashboard | Audience | Questions answered | Source tables | Refresh | Review by | Owner | Link |

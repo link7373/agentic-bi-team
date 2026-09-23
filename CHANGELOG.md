@@ -5,6 +5,63 @@ a **major** bump changes the repo layout or a convention that user-filled files 
 on (`/upgrade` will tell you what to do), **minor** adds agents, skills, or standards,
 **patch** is fixes and wording.
 
+## [1.1.0] — 2026-09-23
+
+Tableau capability module. Tableau teams get what Power BI teams already had: the
+dashboard as a code artifact, spec'd and validated rather than clicked together.
+
+### Added
+
+- **`/tableau` skill** — builds a `.twb` workbook from a compact Python spec rather
+  than hand-written XML. Six tested chart recipes (`ban`, `bar_h`, `bar_v`, `line`,
+  `bar_stack`, `table`), CSV and live-SQL connections, flat dashboard zones with
+  proportional row heights. The builder owns the schema's fixed element ordering so
+  callers never have to.
+- **`tableau-validator` agent** — the independent gate before a workbook reaches
+  Tableau or a stakeholder.
+- **`standards/tableau-standards.md`** — Tableau mechanics on top of
+  `dashboard-standards.md`, which remains the single source of truth for design.
+- **`scripts/validate_twb.py`** — two layers: schema conformance, plus the semantic
+  checks the schema cannot express (field and sheet references, extract wiring,
+  dashboard viewpoints, CSV header drift, calc sanity, design rules).
+- **`scripts/hyper_extract.py`** — `.hyper` extract generation and `.twbx` packaging,
+  needed because Tableau Public is extract-only. `tableauhyperapi` is imported lazily,
+  so the CSV and SQL paths stay dependency-free.
+- **`scripts/extract_runtime_schema.py`** — resolves the schema a local Tableau install
+  actually applies. This matters more than it sounds: see below.
+- **Worked example** at `.claude/skills/tableau/examples/demo-exec-overview/`, built
+  from `demo/demo.db` and verified open in Tableau Public 2026.2.
+- **29-assertion regression suite**, including defect cases for every failure that
+  reached Tableau during development.
+
+### Learned the hard way
+
+Three findings that cost eight failed loads and are now documented in
+`.claude/skills/tableau/references/gotchas.md`:
+
+- **The published XSD is not the schema Tableau applies.** Tableau's real schema is a
+  *template* with 91 `<!--?IF Feature -->` branches, resolved at open time from the
+  flags a workbook declares in `<document-format-change-manifest>` — bare element
+  names, documented nowhere. `validate_twb.py` therefore prefers the extracted runtime
+  schema and warns (`SCH002`) when falling back to the published one.
+- **`@version` is the format version (`18.1`), not the Tableau release.** Setting it to
+  a release resolves a different, much stricter schema.
+- **Get a reference workbook first.** One workbook Tableau itself wrote answered more
+  questions than days of schema reading. `gotchas.md` opens with the one-liner to fetch
+  one.
+
+The wider lesson, also recorded there: **an error message names a symptom, not a
+cause.** Four rounds went into fixing whatever Tableau's error named; two diagnostic
+workbooks that isolated the failure found it immediately.
+
+### Changed
+
+- `/build-dashboard` step 5 hands the Tableau branch to `/tableau`, as it already did
+  for Power BI. The "produce importable artifacts plus instructions" fallback no longer
+  applies to Tableau.
+- `.gitignore` — `*.hyper`, `*.twbx` and `hyperd.log` are generated binaries; the
+  `.twb`, `build.py` and SQL remain tracked as the reproducible layer.
+
 ## [1.0.0] — 2026-08-08
 
 The production-readiness release. The team could already do the work; this release

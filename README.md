@@ -13,8 +13,8 @@ statistical framework and persisted across sessions.
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 ![Built for](https://img.shields.io/badge/Built%20for-Claude%20Code-8A2BE2.svg)
-![Agents](https://img.shields.io/badge/Agents-10-2563EB.svg)
-![Skills](https://img.shields.io/badge/Skills-16-2563EB.svg)
+![Agents](https://img.shields.io/badge/Agents-11-2563EB.svg)
+![Skills](https://img.shields.io/badge/Skills-17-2563EB.svg)
 ![Version](https://img.shields.io/badge/Version-1.0.0-2563EB.svg)
 
 Everything is plain Markdown. No app, no SaaS, no lock-in — the "team" is a set of instruction files that
@@ -27,7 +27,7 @@ Claude Code reads.
 A real BI team is a group of specialists working a shared operating rhythm: data engineers, analytics
 engineers, analysts, dashboard developers, data scientists, a metrics steward, a performance monitor, and
 someone who turns analysis into something an executive will act on. This kit recreates that team as
-**10 role-based agents** coordinated by a **Head of BI** orchestrator, driven by **16 plain-English
+**11 role-based agents** coordinated by a **Head of BI** orchestrator, driven by **17 plain-English
 workflows**, and anchored by a **persistent knowledge base** plus a standing **statistical-reasoning
 framework** so the numbers are trustworthy and the context survives across sessions.
 
@@ -47,8 +47,8 @@ flowchart TD
 A(["👤 You · plain English"]) -->|"fill in once"| B["📋 START-HERE.md — the charter"]
 B -->|"/setup-team"| M
 A -->|"requests"| M{{"📊 Head of BI — orchestrator (CLAUDE.md)"}}
-M --> SK[/"16 Skills · workflows"/]
-SK --> AG["👥 10 Specialist Agents — data · analysis · delivery"]
+M --> SK[/"17 Skills · workflows"/]
+SK --> AG["👥 11 Specialist Agents — data · analysis · delivery"]
 AG --> KN[("🧠 knowledge/ — source of truth")]
 AG --> ST[("📐 standards/ — house style")]
 AG --> AR[("🧮 analytics.md — stats & viz framework")]
@@ -66,7 +66,7 @@ class KN,ST,AR store;
 |------|------------|
 | 📊 **Orchestrator** (`CLAUDE.md`) | The Head of BI — routes requests, sequences multi-step work, runs the cadence, owns final QA. Auto-loaded every session. |
 | 👥 **Agents** (`.claude/agents/`) | 10 specialists, each scoped to a role with deep, role-specific instructions. |
-| ⚙️ **Skills** (`.claude/skills/`) | 16 slash-command workflows with step-by-step procedures. |
+| ⚙️ **Skills** (`.claude/skills/`) | 17 slash-command workflows with step-by-step procedures. |
 | 🧠 **Knowledge** (`knowledge/`) | Persistent memory — business context, data sources, the metrics catalog, stakeholders, decisions, incidents, requests. The **source of truth**. |
 | 📐🧮 **Standards & framework** | House style (`standards/`) and the standing statistical-reasoning + visualization reference (`analytics.md`). |
 | 🛡️ **Tooling & rails** (`scripts/`, `.claude/settings.json`) | Standard-library checks the team runs on itself, a least-privilege permission set, and a hook that blocks destructive SQL. |
@@ -146,7 +146,7 @@ defects (a nine-day pipeline outage and a month of duplicate invoices), and seas
 month-over-month comparison lie. Seeing whether the team finds them — and whether it says which one is a
 data problem *before* treating it as a business result — tells you more than any feature list.
 
-## The team — 10 agents
+## The team — 11 agents
 
 **Data foundation**
 
@@ -184,7 +184,7 @@ pipeline run?" — and it answers first, because roughly half of all "the metric
 be a stale table or a schema change. Every hour of business analysis spent before that check is wasted.
 It's a different question, a different method, and a different first move.
 
-## The workflows — 16 skills
+## The workflows — 17 skills
 
 | Skill | What it does | Lead agent |
 |-------|--------------|------------|
@@ -399,9 +399,9 @@ agentic-bi-team/
 ├─ VERSION · CHANGELOG.md · CONTRIBUTING.md · LICENSE
 ├─ .gitignore · .gitattributes · .env.example
 ├─ .claude/
-│  ├─ agents/               # 10 specialist sub-agents
+│  ├─ agents/               # 11 specialist sub-agents
 │  ├─ settings.json         # permissions + the destructive-SQL hook
-│  └─ skills/               # 16 slash-command workflows
+│  └─ skills/               # 17 slash-command workflows
 │     └─ powerbi/           # Power BI only — loaded on demand
 │        ├─ references/     #   PBIP · PBIR · TMDL · DAX · theme · gotchas
 │        ├─ scripts/        #   validate_pbip.py (stdlib, no installs)

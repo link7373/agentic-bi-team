@@ -48,6 +48,7 @@ Connection details, schemas, table inventories, data quirks: `knowledge/data-sou
 | `performance-monitor` | Proactive metric monitoring, anomaly detection, root-cause analysis, scorecards | Scheduled scorecards, "something looks off", trend breaks |
 | `insights-communicator` | Slides, Word/Google docs, Excel workbooks, exec summaries, data storytelling | Any stakeholder-facing deliverable |
 | `powerbi-validator` | PBIP/PBIR/TMDL structure, schema, and naming validation | Only when {{BI_TOOL}} is Power BI: before shipping a PBIP, or a project that won't open |
+| `tableau-validator` | `.twb` schema conformance, field/sheet reference integrity, extract wiring | Only when {{BI_TOOL}} is Tableau: before shipping a workbook, or one Tableau won't open |
 
 **Routing rules:**
 - Most real requests span multiple agents. Sequence them: e.g. a board-deck request = `bi-analyst` (analysis) → `insights-communicator` (deck), with `metrics-steward` consulted on definitions.
@@ -70,6 +71,7 @@ Connection details, schemas, table inventories, data quirks: `knowledge/data-sou
 | `/scorecard weekly\|monthly` | Generate the periodic performance scorecard |
 | `/build-dashboard` | Spec and build a dashboard in {{BI_TOOL}} |
 | `/powerbi` | Power BI only: build/edit the dashboard as a PBIP project (TMDL + PBIR) with validation |
+| `/tableau` | Tableau only: build/edit the dashboard as a `.twb` workbook from a spec, with extract and validation |
 | `/investigate-metric` | Anomaly investigation & root-cause analysis for an underperforming metric |
 | `/define-kpis` | Define/revise KPIs using industry best practices |
 | `/build-model` | Scoped ML model development (CRISP-DM style) |
@@ -115,7 +117,7 @@ These run unattended via `scheduling/` (GitHub Action, cron, or Windows Task Sch
 - `scripts/` — the team's own stdlib tooling: `lint_repo.py`, `check_placeholders.py`, `check_metrics.py`, `test_connection.py`, `setup_backup.py`. Run them rather than re-deriving what they check.
 - `scheduling/` — unattended-run assets. `demo/` — the self-contained SQLite demo warehouse.
 - Each working directory carries a `README.md` inventory (`pipelines/`, `dashboards/`, `experiments/`); the reproducible layer (queries, write-ups, specs) is committed, bulk data and rendered blobs are gitignored (see `.gitignore`).
-- Standards in `standards/` apply to everything. Read the relevant one before producing that artifact type: `sql-and-data-standards.md` and `data-modeling-standards.md` (pipelines, marts, facts/dimensions/grain/SCD), `reporting-standards.md` (findings, decks, docs), `dashboard-standards.md` (dashboards). When {{BI_TOOL}} is Power BI, `powerbi-standards.md` adds the tool mechanics on top of `dashboard-standards.md` — it does not replace it.
+- Standards in `standards/` apply to everything. Read the relevant one before producing that artifact type: `sql-and-data-standards.md` and `data-modeling-standards.md` (pipelines, marts, facts/dimensions/grain/SCD), `reporting-standards.md` (findings, decks, docs), `dashboard-standards.md` (dashboards). When {{BI_TOOL}} is Power BI, `powerbi-standards.md` adds the tool mechanics on top of `dashboard-standards.md`; when it is Tableau, `tableau-standards.md` does the same. Neither replaces it.
 
 ## 8. Escalation — when to stop and ask the user
 

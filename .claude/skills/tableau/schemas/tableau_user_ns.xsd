@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Companion shim for the official Tableau TWB schema. NOT shipped by Tableau.
+
+  twb_<version>.xsd contains:
+
+      <xs:import namespace="http://www.tableausoftware.com/xml/user"/>
+
+  with no schemaLocation, and then references user:UserAttributes-AG three times
+  (2026.2.0: lines 2862, 3299, 3394). A namespace import without a location is
+  legal XSD, but libxml2 (and therefore lxml, and xmllint) refuses to build the
+  schema because the QName cannot be resolved:
+
+      XMLSchemaParseError: Element '{...}attributeGroup', attribute 'ref':
+      The QName value '{http://www.tableausoftware.com/xml/user}UserAttributes-AG'
+      does not resolve to a(n) attribute group definition.
+
+  This file supplies that definition so the official schema can be loaded
+  locally. validate_twb.py injects a schemaLocation pointing here at load time,
+  in memory, so the vendored twb_*.xsd stays byte-identical to upstream.
+
+  The definition is deliberately permissive: Tableau has not published the real
+  content model, and these are UI-hint attributes (user:ui-marker,
+  user:ui-enumeration, user:ui-domain-type and friends) that carry no structural
+  meaning. Accepting any attribute in this namespace is the honest choice — it
+  neither invents constraints Tableau did not state, nor rejects valid files.
+
+  Part of the Agentic BI Team. Created by Colin Beck.
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.tableausoftware.com/xml/user"
+           elementFormDefault="qualified">
+
+  <xs:attributeGroup name="UserAttributes-AG">
+    <xs:anyAttribute namespace="##targetNamespace" processContents="lax"/>
+  </xs:attributeGroup>
+
+</xs:schema>

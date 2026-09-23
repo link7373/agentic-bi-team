@@ -15,7 +15,7 @@ statistical framework and persisted across sessions.
 ![Built for](https://img.shields.io/badge/Built%20for-Claude%20Code-8A2BE2.svg)
 ![Agents](https://img.shields.io/badge/Agents-11-2563EB.svg)
 ![Skills](https://img.shields.io/badge/Skills-17-2563EB.svg)
-![Version](https://img.shields.io/badge/Version-1.0.0-2563EB.svg)
+![Version](https://img.shields.io/badge/Version-1.1.0-2563EB.svg)
 
 Everything is plain Markdown. No app, no SaaS, no lock-in — the "team" is a set of instruction files that
 Claude Code reads.
@@ -43,29 +43,46 @@ confident.
 ## How it works
 
 ```mermaid
-flowchart TD
-A(["👤 You · plain English"]) -->|"fill in once"| B["📋 START-HERE.md — the charter"]
-B -->|"/setup-team"| M
-A -->|"requests"| M{{"📊 Head of BI — orchestrator (CLAUDE.md)"}}
-M --> SK[/"17 Skills · workflows"/]
-SK --> AG["👥 11 Specialist Agents — data · analysis · delivery"]
-AG --> KN[("🧠 knowledge/ — source of truth")]
-AG --> ST[("📐 standards/ — house style")]
-AG --> AR[("🧮 analytics.md — stats & viz framework")]
-KN -. "connect & query" .-> DATA["🗄️ Warehouse · BI tool · source systems"]
-M ==>|"decision-ready output"| A
-classDef hub fill:#2563EB,stroke:#1a4ba8,color:#fff;
-classDef store fill:#eef,stroke:#88a,color:#223;
-class M hub;
-class KN,ST,AR store;
+flowchart TB
+    YOU(["You · plain English"])
+    CHARTER["START-HERE.md<br/><i>the charter, filled once</i>"]
+    ORCH{{"Head of BI<br/><i>orchestrator · CLAUDE.md</i>"}}
+    SKILLS["17 Skills<br/><i>workflows</i>"]
+    AGENTS["11 Agents<br/><i>data · analysis · delivery</i>"]
+    KN[("knowledge/<br/><i>source of truth</i>")]
+    ST[("standards/<br/><i>house style</i>")]
+    AR[("analytics.md<br/><i>stats & viz</i>")]
+    DATA[("Warehouse · BI tool · source systems")]
+
+    YOU -->|"fill once"| CHARTER
+    CHARTER -->|"/setup-team"| ORCH
+    YOU -->|"requests"| ORCH
+    ORCH --> SKILLS
+    SKILLS --> AGENTS
+    AGENTS --> KN
+    AGENTS --> ST
+    AGENTS --> AR
+    KN -.->|"connect & query"| DATA
+    ORCH ==>|"decision-ready output"| YOU
+
+    classDef actor fill:#F8FAFC,stroke:#64748B,stroke-width:1px,color:#0F172A;
+    classDef hub fill:#2563EB,stroke:#1D4ED8,stroke-width:1px,color:#FFFFFF;
+    classDef work fill:#EFF6FF,stroke:#3B82F6,stroke-width:1px,color:#1E3A8A;
+    classDef store fill:#F5F3FF,stroke:#8B5CF6,stroke-width:1px,color:#4C1D95;
+    classDef ext fill:#ECFDF5,stroke:#10B981,stroke-width:1px,color:#064E3B;
+    class YOU,CHARTER actor;
+    class ORCH hub;
+    class SKILLS,AGENTS work;
+    class KN,ST,AR store;
+    class DATA ext;
 ```
 
-**Five moving parts:**
+**Six moving parts:**
 
 | Part | What it is |
 |------|------------|
 | 📊 **Orchestrator** (`CLAUDE.md`) | The Head of BI — routes requests, sequences multi-step work, runs the cadence, owns final QA. Auto-loaded every session. |
-| 👥 **Agents** (`.claude/agents/`) | 10 specialists, each scoped to a role with deep, role-specific instructions. |
+| 👥 **Agents** (`.claude/agents/`) | 11 specialists, each scoped to a role with deep, role-specific instructions. |
 | ⚙️ **Skills** (`.claude/skills/`) | 17 slash-command workflows with step-by-step procedures. |
 | 🧠 **Knowledge** (`knowledge/`) | Persistent memory — business context, data sources, the metrics catalog, stakeholders, decisions, incidents, requests. The **source of truth**. |
 | 📐🧮 **Standards & framework** | House style (`standards/`) and the standing statistical-reasoning + visualization reference (`analytics.md`). |
@@ -78,18 +95,42 @@ deliverable, and the answers feed back into the next cycle:
 
 ```mermaid
 flowchart LR
-RD["🔎 /research-domain"] --> DK["🎯 /define-kpis"]
-DK --> BP["🔧 /build-pipeline"]
-BP --> AN["📊 /analyze"]
-AN --> IM["🚨 /investigate-metric"]
-AN --> BM["🤖 /build-model"]
-AN --> EX["🧪 /experiment"]
-AN --> BD["📈 /build-dashboard"]
-IM --> SC["🗂️ /scorecard"]
-BD --> SC
-SC --> MD["📰 /make-deliverable"]
-MD -. "next cycle" .-> DK
+    RD["/research-domain"]
+    DK["/define-kpis"]
+    BP["/build-pipeline"]
+    AN["/analyze"]
+    IM["/investigate-metric"]
+    BM["/build-model"]
+    EX["/experiment"]
+    BD["/build-dashboard"]
+    SC["/scorecard"]
+    MD["/make-deliverable"]
+
+    RD --> DK
+    DK --> BP
+    BP --> AN
+    AN --> IM
+    AN --> BM
+    AN --> EX
+    AN --> BD
+    IM --> SC
+    BD --> SC
+    SC --> MD
+    MD -.->|"next cycle"| DK
+
+    classDef define fill:#F5F3FF,stroke:#8B5CF6,stroke-width:1px,color:#4C1D95;
+    classDef build fill:#ECFDF5,stroke:#10B981,stroke-width:1px,color:#064E3B;
+    classDef analyse fill:#EFF6FF,stroke:#3B82F6,stroke-width:1px,color:#1E3A8A;
+    classDef deliver fill:#FFF7ED,stroke:#F97316,stroke-width:1px,color:#7C2D12;
+    class RD,DK define;
+    class BP build;
+    class AN,IM,BM,EX analyse;
+    class BD,SC,MD deliver;
 ```
+
+**Colour reads as phase:** 🟣 define · 🟢 build · 🔵 analyse · 🟠 deliver. Nothing here is a
+one-way door — `/analyze` branches to whichever of investigation, modelling, experimentation or
+dashboarding the question actually needs, and the scorecard feeds the next cycle's KPI review.
 
 ## Quick start
 
@@ -177,6 +218,7 @@ data problem *before* treating it as a business result — tells you more than a
 | `dashboard-developer` | Dashboards in Tableau / Power BI / Looker (or self-contained HTML), visual design |
 | `insights-communicator` | Exec summaries, decks, docs, workbooks, data storytelling — the last mile |
 | `powerbi-validator` | PBIP structure, TMDL/PBIR schemas, naming, field references — Power BI teams only |
+| `tableau-validator` | `.twb` schema conformance, field & sheet references, extract wiring — Tableau teams only |
 
 **Why `data-quality-engineer` is its own role, not a bullet in `data-engineer`.** When revenue drops 40%,
 `performance-monitor` asks "what happened to sales?" and `data-quality-engineer` asks "did the invoice
@@ -202,23 +244,55 @@ It's a different question, a different method, and a different first move.
 | `/scorecard weekly\|monthly` | The periodic performance scorecard — fixed KPI set, status colours, narrative | performance-monitor + insights-communicator |
 | `/build-dashboard` | Spec → data layer → build → number-by-number validation, in the team's BI tool | dashboard-developer + analytics-engineer |
 | `/powerbi` | Power BI only: PBIP project as code — TMDL model, PBIR report, theme, validation gate | dashboard-developer + powerbi-validator |
+| `/tableau` | Tableau only: `.twb` workbook as code — spec-driven sheets, extract, validation gate | dashboard-developer + tableau-validator |
 | `/make-deliverable` | Pyramid-structured deck / doc / workbook with every figure source-mapped | insights-communicator |
 | `/upgrade` | Pull a newer release's framework changes without touching your knowledge base | (orchestrator) |
 
-## Power BI: dashboards as code
+## Dashboards as code
 
-For most BI tools the team produces the artifact and the setup steps, and a human does
-the import. **Power BI is the exception.** A Power BI Project (PBIP) is plain text —
-TMDL for the semantic model, PBIR JSON for the report — so the team builds, edits, and
-validates the real thing, and it version-controls like any other work product.
+For most BI tools the team produces the artifact and the setup steps, and a human does the
+import. **Power BI and Tableau are the exceptions** — both store a dashboard as plain text,
+so the team builds, edits and validates the real thing, and it version-controls like any
+other work product.
+
+```mermaid
+flowchart LR
+    MART[("mart or<br/>summary table")]
+    SPEC["spec<br/><i>what the dashboard is</i>"]
+    BUILD["builder<br/><i>TMDL + PBIR · .twb XML</i>"]
+    ART["workbook<br/><i>.pbip · .twb</i>"]
+    VAL{"validator"}
+    OPEN(["opened in<br/>Desktop"])
+
+    MART --> SPEC
+    SPEC --> BUILD
+    BUILD --> ART
+    ART --> VAL
+    VAL -->|"errors"| SPEC
+    VAL -->|"clean"| OPEN
+
+    classDef src fill:#ECFDF5,stroke:#10B981,color:#064E3B;
+    classDef step fill:#EFF6FF,stroke:#3B82F6,color:#1E3A8A;
+    classDef gate fill:#FEF3C7,stroke:#F59E0B,color:#78350F;
+    classDef out fill:#F1F5F9,stroke:#64748B,color:#0F172A;
+    class MART src;
+    class SPEC,BUILD,ART step;
+    class VAL gate;
+    class OPEN out;
+```
+
+The spec is the source and the workbook is its output, so a dashboard is reproducible from
+the mart rather than being a binary somebody once saved.
+
+### Power BI — PBIP
 
 Set `{{BI_TOOL}}` to Power BI and `/build-dashboard` hands implementation to
-[`/powerbi`](.claude/skills/powerbi/SKILL.md), which authors the star-schema model,
-pages and visuals, and a theme that encodes the design standards once instead of
+[`/powerbi`](.claude/skills/powerbi/SKILL.md), which authors the star-schema model in TMDL,
+pages and visuals in PBIR, and a theme that encodes the design standards once instead of
 per-visual.
 
-**Then it checks its work.** `validate_pbip.py` (standard library, no installs) runs
-~35 checks and catches the failures Power BI Desktop *doesn't report*:
+`validate_pbip.py` (standard library, no installs) runs ~35 checks and catches the failures
+Power BI Desktop *doesn't report*:
 
 - a page folder named `My Page` — Desktop silently ignores it and the page vanishes
 - schema versions left at `1.0.0` — the model loads, zero pages render, no error
@@ -226,17 +300,45 @@ per-visual.
 - a theme registered in `themeCollection` but not `resourcePackages` — silently no theme
 - a measure bound to a table that no longer exists
 
-Every one of those was found by opening a real project in Desktop *after* the validator
-said clean. They're now regression tests: `python .claude/skills/powerbi/tests/run_tests.py`
-builds a working PBIP plus 16 injected defects and asserts each raises its specific code.
+Every one was found by opening a real project in Desktop *after* the validator said clean.
+They're now regression tests: `python .claude/skills/powerbi/tests/run_tests.py` builds a
+working PBIP plus 16 injected defects and asserts each raises its specific code.
 
-Capability degrades gracefully — **Tier 1 needs only Power BI Desktop and Python** and
-is enough to build a complete dashboard. Optional accelerators (`pbir-cli`, Fabric CLI)
-are detected if you've installed them, never bundled, and the team tells you
-`pbir-cli` is non-commercial-only *before* suggesting it.
+### Tableau — `.twb`
 
-None of this loads for teams on another tool: `/powerbi` checks `{{BI_TOOL}}` and bows
-out, and all the depth sits in reference files read only when a Power BI step runs.
+Set `{{BI_TOOL}}` to Tableau and [`/tableau`](.claude/skills/tableau/SKILL.md) builds the
+workbook from a compact spec — six tested chart recipes, CSV or live-SQL connections,
+`.hyper` extracts and `.twbx` packaging where the target needs them. A single worksheet is
+150–250 lines of order-sensitive XML; the builder owns that, so the spec stays about thirty.
+
+**The catch worth knowing about:** Tableau's *published* XSD is not the schema Tableau
+applies when it opens a file. The real one is a template resolved at load time from feature
+flags the workbook itself declares, so a file can pass the official schema and still refuse
+to open. `extract_runtime_schema.py` resolves the real schema from a local Tableau install,
+and `validate_twb.py` prefers it — warning explicitly when it has to fall back.
+
+Its semantic checks exist because real workbooks failed:
+
+- an unqualified field reference — Tableau drops the field and the sheet renders nothing
+- a dashboard with no `<viewpoint>` for a sheet it shows — Tableau refuses the whole dashboard
+- a shelf pointing at a column no longer declared on the datasource
+- CSV header drift against the declared fields
+
+All of those are invisible to schema validation. They're regression tests too, built by
+mutating a known-good fixture: `python .claude/skills/tableau/tests/run_tests.py`
+(29 assertions). A worked example ships in
+[`examples/demo-exec-overview/`](.claude/skills/tableau/examples/demo-exec-overview/),
+built from the demo warehouse and verified open in Tableau Public.
+
+### Both, the same way
+
+Capability degrades gracefully — the default tier needs only the desktop app and Python, and
+is enough to build a complete dashboard. Optional accelerators are detected if you've
+installed them, never bundled, and licence restrictions are surfaced *before* anything is
+suggested.
+
+**Neither loads for teams on another tool.** Each skill checks `{{BI_TOOL}}` and bows out,
+and all the vendor depth sits in reference files read only when that tool's step runs.
 
 ## Knowledge & memory
 
@@ -289,6 +391,9 @@ House style lives in `standards/`, and the relevant file is read before producin
 - **`dashboard-standards.md`** — Z-pattern layout, the five-second test, chart-selection & charts-to-avoid
   tables, semantic colour, honesty rules, the dead-end-dashboard guard.
 - **`data-modeling-standards.md`** — facts & dimensions, grain, surrogate keys, slowly-changing dimensions.
+- **`tableau-standards.md`** — *Tableau teams only.* One grain per workbook, marts not workbook
+  logic, extracts over live connections, calculated fields for presentation only, the LOD filter
+  trap, the validation gate. Defers to `dashboard-standards.md` for every design decision.
 - **`powerbi-standards.md`** — *Power BI teams only.* Star schema, one date table, catalog-exact measure
   names, thin DAX, theme-first formatting, the naming rule, the validation gate. Defers to
   `dashboard-standards.md` for every design decision, so there's still one source of truth for chart
@@ -319,16 +424,13 @@ agent's context. The full non-technical runbook is
 
 **Configuring the BI tool.** Set your tool in the charter (or directly in `CLAUDE.md` and
 `dashboard-developer.md`). The dashboard developer carries tool-specific rules for **Tableau**, **Power
-BI**, and **Looker**; with no direct API access it produces import-ready artifacts plus setup steps; with
-no BI tool at all it builds self-contained HTML dashboards.
+BI**, and **Looker**; for Looker it produces import-ready artifacts plus setup steps; with no BI tool at
+all it builds self-contained HTML dashboards.
 
-**Power BI goes further.** Because a Power BI project (PBIP) is plain text — TMDL for the semantic
-model, PBIR JSON for the report — the team builds the real artifact rather than instructions for one.
-Set `{{BI_TOOL}}` to Power BI and [`/powerbi`](.claude/skills/powerbi/SKILL.md) authors the model,
-pages, visuals, and theme, then runs a deterministic validator that catches the failures Power BI
-Desktop *doesn't* report — most importantly the naming rule that makes a page silently vanish. The
-`powerbi-validator` agent gates anything stakeholder-facing, and dashboards get committed to git like
-any other reproducible work product. None of this loads for teams on another tool.
+**Power BI and Tableau go further.** Both store a dashboard as plain text — TMDL + PBIR JSON for
+Power BI, XML for a Tableau `.twb` — so the team builds the real artifact rather than instructions for
+one, runs a deterministic validator over it, and commits it like any other reproducible work product.
+See [Dashboards as code](#dashboards-as-code). Neither loads for teams on another tool.
 
 **Safety rails.** Three layers, because a prompt is guidance and not a control:
 
@@ -368,6 +470,7 @@ error message from the warehouse.
 | SQL conventions, naming, quality gates | `standards/sql-and-data-standards.md` |
 | Chart / colour / layout rules | `standards/dashboard-standards.md` |
 | Power BI model, DAX, PBIP rules | `standards/powerbi-standards.md` |
+| Tableau grain, extracts, calculated-field rules | `standards/tableau-standards.md` |
 | Report structure, tone, branding | `standards/reporting-standards.md` |
 | Who gets what, in which format, and how fast | `knowledge/stakeholders.md` |
 | Permissions and the destructive-SQL hook | `.claude/settings.json` (see `docs/settings.md`) |
@@ -402,10 +505,16 @@ agentic-bi-team/
 │  ├─ agents/               # 11 specialist sub-agents
 │  ├─ settings.json         # permissions + the destructive-SQL hook
 │  └─ skills/               # 17 slash-command workflows
-│     └─ powerbi/           # Power BI only — loaded on demand
-│        ├─ references/     #   PBIP · PBIR · TMDL · DAX · theme · gotchas
-│        ├─ scripts/        #   validate_pbip.py (stdlib, no installs)
-│        └─ tests/          #   regression suite: 1 clean + 16 defect fixtures
+│     ├─ powerbi/           # Power BI only — loaded on demand
+│     │  ├─ references/     #   PBIP · PBIR · TMDL · DAX · theme · gotchas
+│     │  ├─ scripts/        #   validate_pbip.py (stdlib, no installs)
+│     │  └─ tests/          #   regression suite: 1 clean + 16 defect fixtures
+│     └─ tableau/           # Tableau only — loaded on demand
+│        ├─ references/     #   spec · chart recipes · connections · calcs · gotchas
+│        ├─ schemas/        #   vendored TWB XSD (Apache-2.0) + namespace shims
+│        ├─ scripts/        #   twb_builder · validate_twb · hyper_extract
+│        ├─ examples/       #   worked demo, built from demo/demo.db
+│        └─ tests/          #   regression suite: 29 assertions
 ├─ .github/workflows/       # CI: repo lint + validator regression suite + demo build
 ├─ scripts/                 # the team's own checks (stdlib): lint_repo · check_placeholders
 │  └─ hooks/                #   check_metrics · test_connection · setup_backup
@@ -417,7 +526,7 @@ agentic-bi-team/
 │  ├─ metrics-catalog.md · stakeholders.md · decision-log.md
 │  ├─ industry-notes.md · data-quality-log.md
 │  ├─ incident-runbook.md · request-log.md
-├─ standards/               # sql-and-data · data-modeling · reporting · dashboard · powerbi
+├─ standards/               # sql-and-data · data-modeling · reporting · dashboard · powerbi · tableau
 ├─ analyses/ · pipelines/ · dashboards/ · experiments/
 ├─ models/ · scorecards/ · deliverables/     # each with a README inventory
 ```
@@ -463,6 +572,7 @@ answered twice.
 | Two reports disagree on a number | A metrics-steward job: say "these two numbers disagree" and it reproduces both, rules, and fixes the deviating artifact. |
 | Data connection broke | Update `knowledge/data-sources.md` (or tell the team — it retests and updates the file). See `connections.md`. |
 | Output style isn't right | Edit the relevant `standards/` file once; every future artifact follows it. |
+| Tableau workbook won't open, or the dashboard errors | Run `python .claude/skills/tableau/scripts/validate_twb.py <path>`. "No visual representation" is almost always a missing dashboard `<viewpoint>` (REF007), not a broken sheet. See the skill's `references/gotchas.md`. |
 | Power BI project won't open, or opens blank | Run `python .claude/skills/powerbi/scripts/validate_pbip.py dashboards/<name>`. Blank report with a working model is almost always stale schema versions (PBIR014); refusal to open is almost always a BOM (ENC001). |
 
 ## Acknowledgements
@@ -476,9 +586,19 @@ validate-after safety conventions, come from [**pbir.tools**](https://github.com
 Maxim Anatsko and Kurt Buhler. Both are excellent and more specialised than this module aims to be — if
 you work in Power BI daily, install them.
 
-**No code or text was copied from either project.** This module is original work written against
-Microsoft's published PBIP/PBIR/TMDL documentation and JSON schemas, because this repository is MIT while
-power-bi-agentic-development is GPL-3.0 and pbir.tools prohibits derivative works. `pbir-cli` is treated
+The Tableau module owes its render-and-score idea to
+[**vizwright**](https://github.com/collinalldata/vizwright) by Blake Feiza, and its honesty about
+generated workbooks being unproven until Tableau itself opens them — *"the validators are not
+Tableau"* — to
+[**tableau-dashboard-creator-skill**](https://github.com/laviDrori0702/tableau-dashboard-creator-skill)
+by Lavi Drori. [**cwtwb**](https://github.com/aidatacooper/cwtwb) is the most capable open-source TWB
+generator around; this repo deliberately does **not** depend on it, because it is AGPL-3.0 and that is
+a licence a team should adopt on purpose rather than inherit through a dependency.
+
+**No code or text was copied from any of these projects.** Both modules are original work written
+against the vendors' published documentation and schemas — Microsoft's PBIP/PBIR/TMDL, and Tableau's
+TWB XSD — because this repository is MIT while power-bi-agentic-development is GPL-3.0 and pbir.tools
+prohibits derivative works. `pbir-cli` is treated
 as an optional, detected accelerator — never a dependency — and the team surfaces its non-commercial
 licence restriction before ever suggesting you install it.
 
